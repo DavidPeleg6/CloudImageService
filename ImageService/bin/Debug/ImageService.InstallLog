@@ -1,0 +1,42 @@
+﻿Installing assembly 'D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.InstallLog
+   assemblypath = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
+Installing service ImageService...
+Service ImageService has been successfully installed.
+Creating EventLog source ImageService in log Application...
+Committing assembly 'D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.InstallLog
+   assemblypath = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
+Uninstalling assembly 'D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.InstallLog
+   assemblypath = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
+Removing EventLog source ImageService.
+Service ImageService is being removed from the system...
+Service ImageService was successfully removed from the system.
+Installing assembly 'D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.InstallLog
+   assemblypath = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
+Installing service ImageService...
+Service ImageService has been successfully installed.
+Creating EventLog source ImageService in log Application...
+Committing assembly 'D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.InstallLog
+   assemblypath = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
+Uninstalling assembly 'D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.InstallLog
+   assemblypath = D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
+Removing EventLog source ImageService.
+Service ImageService is being removed from the system...
+Service ImageService was successfully removed from the system.
