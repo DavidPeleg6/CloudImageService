@@ -12,6 +12,7 @@ using ImageService.Logging;
 using ImageService.Logging.Modal;
 using System.Configuration;
 using ImageService.Infrastructure;
+using System.Configuration;
 
 namespace ImageService
 {
@@ -40,19 +41,13 @@ namespace ImageService
     {
         private ILoggingService logging;
         private int eventId = 1;
-        public ImageService(string[] args)
+        public ImageService()
         {
             InitializeComponent();
-            string eventSourceName = "MySource";
-            string logName = "MyNewLog";
-            if (args.Count() > 0)
-            {
-                eventSourceName = args[0];
-            }
-            if (args.Count() > 1)
-            {
-                logName = args[1];
-            }
+            //string eventSourceName = "MySource";
+            //string logName = "MyNewLog";
+            string eventSourceName = ConfigurationManager.AppSettings["SourceName"];
+            string logName = ConfigurationManager.AppSettings["LogName"];
             eventLog1 = new System.Diagnostics.EventLog();
             if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
             {
