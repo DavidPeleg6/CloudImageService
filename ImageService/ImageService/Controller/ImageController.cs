@@ -20,20 +20,20 @@ namespace ImageService.Controller
             m_modal = modal;                    // Storing the Modal Of The System
             commands = new Dictionary<int, ICommand>()
             {
-                {0, new NewFileCommand(m_modal)}
+                {(int)CommandEnum.NewFileCommand, new NewFileCommand(m_modal)}
 				// For Now will contain NEW_FILE_COMMAND
             };
         }
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
-            ICommand command;
-            if (!commands.TryGetValue(commandID, out command))
+            ICommand Command;
+            if (!commands.TryGetValue(commandID, out Command))
             {
                 //cound't find the command in the dictionary
                 resultSuccesful = false;
                 return "Unknown command.";
             }
-            return command.Execute(args, out resultSuccesful);
+            return Command.Execute(args, out resultSuccesful);
         }
     }
 }

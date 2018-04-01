@@ -13,13 +13,13 @@ namespace ImageService.Logging
         public event EventHandler<MessageRecievedEventArgs> MessageRecieved; //this event happens when you get a messege
         public void Log(string message, MessageTypeEnum type)
         {
-            EventHandler<MessageRecievedEventArgs> handler = MessageRecieved;
-            if (handler != null)
+            EventHandler<MessageRecievedEventArgs> Handler = MessageRecieved;
+            if (Handler != null)
             {
-                MessageRecievedEventArgs args = new MessageRecievedEventArgs();
-                args.Status = type;
-                args.Message = message;
-                handler(this, args);
+                MessageRecievedEventArgs Args = new MessageRecievedEventArgs();
+                Args.Status = type;
+                Args.Message = message;
+                Handler(this, Args);
             }
         }
     }

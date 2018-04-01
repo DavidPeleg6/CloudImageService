@@ -15,7 +15,7 @@ namespace ImageService.Modal
 {
     public class ImageServiceModal : IImageServiceModal
     {
-        private static Regex r = new Regex(":");
+        private static Regex RegularExpression = new Regex(":");
 
         public string AddFile(string path, out bool result)
         {
@@ -26,32 +26,32 @@ namespace ImageService.Modal
                 return "AddFile error: File does not exist.";
             }
             // top-level folder name.
-            string outputPath = ConfigurationManager.AppSettings["OutputDir"];
-            DateTime date = GetDateTakenFromImage(path);
+            string OutputPath = ConfigurationManager.AppSettings["OutputDir"];
+            DateTime Date = GetDateTakenFromImage(path);
             //parse date into path for a new folder
-            string time = date.Year.ToString() + @"\" + date.Month.ToString();
-            outputPath = System.IO.Path.Combine(outputPath, time);
-            if (!System.IO.Directory.Exists(outputPath))
+            string Time = Date.Year.ToString() + @"\" + Date.Month.ToString();
+            OutputPath = System.IO.Path.Combine(OutputPath, Time);
+            if (!System.IO.Directory.Exists(OutputPath))
             {
-                System.IO.Directory.CreateDirectory(outputPath);
+                System.IO.Directory.CreateDirectory(OutputPath);
             }
             //get file name to update path for copying
-            string fileName = System.IO.Path.GetFileName(path);
-            string targetFile = System.IO.Path.Combine(outputPath, fileName);
-            System.IO.File.Copy(path, targetFile);
+            string FileName = System.IO.Path.GetFileName(path);
+            string TargetFile = System.IO.Path.Combine(OutputPath, FileName);
+            System.IO.File.Copy(path, TargetFile);
             result = true;
-            return outputPath;
+            return OutputPath;
         }
 
         //retrieves the datetime WITHOUT loading the whole image
         public static DateTime GetDateTakenFromImage(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            using (Image myImage = Image.FromStream(fs, false, false))
+            using (FileStream ImageFileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (Image MyImage = Image.FromStream(ImageFileStream, false, false))
             {
-                PropertyItem propItem = myImage.GetPropertyItem(36867);
-                string dateTaken = r.Replace(Encoding.UTF8.GetString(propItem.Value), "-", 2);
-                return DateTime.Parse(dateTaken);
+                PropertyItem PropItem = MyImage.GetPropertyItem(36867);
+                string DateTaken = RegularExpression.Replace(Encoding.UTF8.GetString(PropItem.Value), "-", 2);
+                return DateTime.Parse(DateTaken);
             }
         }
     }

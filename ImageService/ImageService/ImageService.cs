@@ -12,7 +12,6 @@ using ImageService.Logging;
 using ImageService.Logging.Modal;
 using System.Configuration;
 using ImageService.Infrastructure;
-using System.Configuration;
 
 namespace ImageService
 {
@@ -39,22 +38,22 @@ namespace ImageService
     };
     public partial class ImageService : ServiceBase
     {
-        private ILoggingService logging;
-        private int eventId = 1;
+        private ILoggingService Logging;
+        private int EventID = 1;
         public ImageService()
         {
             InitializeComponent();
             //string eventSourceName = "MySource";
             //string logName = "MyNewLog";
-            string eventSourceName = ConfigurationManager.AppSettings["SourceName"];
-            string logName = ConfigurationManager.AppSettings["LogName"];
+            string EventSourceName = ConfigurationManager.AppSettings["SourceName"];
+            string LogName = ConfigurationManager.AppSettings["LogName"];
             eventLog1 = new System.Diagnostics.EventLog();
-            if (!System.Diagnostics.EventLog.SourceExists(eventSourceName))
+            if (!System.Diagnostics.EventLog.SourceExists(EventSourceName))
             {
-                System.Diagnostics.EventLog.CreateEventSource(eventSourceName, logName);
+                System.Diagnostics.EventLog.CreateEventSource(EventSourceName, LogName);
             }
-            eventLog1.Source = eventSourceName;
-            eventLog1.Log = logName;
+            eventLog1.Source = EventSourceName;
+            eventLog1.Log = LogName;
         }
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -62,10 +61,10 @@ namespace ImageService
         {
             eventLog1.WriteEntry("Starting ImageService.");
             // Update the service state to Start Pending.  
-            ServiceStatus serviceStatus = new ServiceStatus();
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
-            serviceStatus.dwWaitHint = 100000;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            ServiceStatus ServiceStatus = new ServiceStatus();
+            ServiceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
+            ServiceStatus.dwWaitHint = 100000;
+            SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
             /*
             // Set up a timer to trigger every minute.  
             System.Timers.Timer timer = new System.Timers.Timer();
@@ -74,8 +73,8 @@ namespace ImageService
             timer.Start();
             */
             // Update the service state to Running.  
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            ServiceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
+            SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
             eventLog1.WriteEntry("Started ImageService.");
         }
 
@@ -83,15 +82,15 @@ namespace ImageService
         {
             //eventLog1.WriteEntry("Stopping ImageService.");
             // Update the service state to stop Pending.  
-            ServiceStatus serviceStatus = new ServiceStatus();
+            ServiceStatus ServiceStatus = new ServiceStatus();
            // serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
             //serviceStatus.dwWaitHint = 100000;
             //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
             //uncomment the above to reinclude 'stop pending' messege
             // Update the service state to stopped.  
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            ServiceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
+            SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
             eventLog1.WriteEntry("Stopped ImageService.");
         }
 
