@@ -55,13 +55,13 @@ namespace ImageService.Controller.Handlers
             bool result;
             string[] args = new string[1];
             args[0] = e.FullPath;
-            string msg = this.m_controller.ExecuteCommand(0, args, out result);
+            string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
             if(result)
             {
-                this.m_logging.Log(msg, (MessageTypeEnum)0);
+                this.m_logging.Log(msg, MessageTypeEnum.INFO);
             } else
             {
-                this.m_logging.Log(msg, (MessageTypeEnum)2);
+                this.m_logging.Log(msg, MessageTypeEnum.FAIL);
             }
         }
     }
