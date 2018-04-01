@@ -15,13 +15,5 @@ namespace ImageService.Modal
         /// <returns>Indication if the Addition Was Successful</returns>
         string AddFile(string path, out bool result);
 
-        /// <summary>
-        /// the function adds a folder
-        /// </summary>
-        /// <param name="path">The Path of the Image from the file</param>
-        /// <param name="result">Indication if the Addition Was Successful</param>
-        /// <returns>Indication if the Addition Was Successful</returns>
-        bool AddFolder(string path);
-
     }
 }

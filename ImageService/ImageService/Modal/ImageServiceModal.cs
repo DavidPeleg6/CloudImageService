@@ -23,7 +23,7 @@ namespace ImageService.Modal
             if(!System.IO.File.Exists(path))
             {
                 result = false;
-                return "fail";
+                return "AddFile error: File does not exist.";
             }
             // top-level folder name.
             string outputPath = ConfigurationManager.AppSettings["OutputDir"];
@@ -31,23 +31,16 @@ namespace ImageService.Modal
             //parse date into path for a new folder
             string time = date.Year.ToString() + @"\" + date.Month.ToString();
             outputPath = System.IO.Path.Combine(outputPath, time);
-            AddFolder(outputPath);
+            if (!System.IO.Directory.Exists(outputPath))
+            {
+                System.IO.Directory.CreateDirectory(outputPath);
+            }
             //get file name to update path for copying
             string fileName = System.IO.Path.GetFileName(path);
             string targetFile = System.IO.Path.Combine(outputPath, fileName);
             System.IO.File.Copy(path, targetFile);
             result = true;
-            return "success";
-        }
-
-        public bool AddFolder(string path)
-        {
-            if (!System.IO.Directory.Exists(path))
-            {
-                System.IO.Directory.CreateDirectory(path);
-                return true;
-            }
-            return false;
+            return outputPath;
         }
 
         //retrieves the datetime WITHOUT loading the whole image
