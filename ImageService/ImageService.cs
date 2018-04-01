@@ -5,9 +5,13 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
+using ImageService.Logging;
+using ImageService.Logging.Modal;
+using System.Configuration;
+using ImageService.Infrastructure;
 
 namespace ImageService
 {
@@ -34,6 +38,7 @@ namespace ImageService
     };
     public partial class ImageService : ServiceBase
     {
+        private ILoggingService logging;
         private int eventId = 1;
         public ImageService(string[] args)
         {

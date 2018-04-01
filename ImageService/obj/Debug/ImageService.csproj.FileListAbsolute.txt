@@ -1,9 +1,0 @@
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe.config
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.exe
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\bin\Debug\ImageService.pdb
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\obj\Debug\ImageService.csprojResolveAssemblyReference.cache
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\obj\Debug\ImageService.ImageService.resources
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\obj\Debug\ImageService.ProjectInstaller.resources
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\obj\Debug\ImageService.csproj.GenerateResource.Cache
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\obj\Debug\ImageService.exe
-D:\DESKTOP STUFF GO HEER NOW\CDT\#unifolders\university\programing 2\ass1\ImageService\ImageService\obj\Debug\ImageService.pdb
