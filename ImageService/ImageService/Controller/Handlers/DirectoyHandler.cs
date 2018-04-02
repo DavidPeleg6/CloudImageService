@@ -16,6 +16,9 @@ using ImageService.Commands;
 
 namespace ImageService.Controller.Handlers
 {
+    /// <summary>
+    /// A class that handles directories.
+    /// </summary>
     public class DirectoyHandler : IDirectoryHandler
     {
         #region Members
@@ -24,12 +27,18 @@ namespace ImageService.Controller.Handlers
         private FileSystemWatcher[] m_dirWatcher;             // The Watcher of the Directory
         private string m_path;                              // The Path of directory
         #endregion
-
-        public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
-
+        /// <summary>
+        /// The Event That Notifies that the Directory is being closed
+        /// </summary>
+        public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;
+        /// <summary>
+        /// Contructs a new DirectoyHandler instance.
+        /// </summary>
+        /// <param name="logger">The logger that will log the handelers actions.</param>
+        /// <param name="controller">The controller that the handeler will use.</param>
         public DirectoyHandler(ILoggingService logger, IImageController controller)
         {
-            m_dirWatcher = new FileSystemWatcher[4];
+            this.m_dirWatcher = new FileSystemWatcher[4];
             this.m_logging = logger;
             this.m_controller = controller;
         }
@@ -67,15 +76,16 @@ namespace ImageService.Controller.Handlers
         private void OnCreated(object source, FileSystemEventArgs e)
         {
             //set args for command
-            string[] args = new string[1];
-            args[0] = e.FullPath;
-            string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out bool result);
+            string[] Args = new string[1];
+            Args[0] = e.FullPath;
+            bool Result;
+            string Messege = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
             //check if successful and write to log
-            if(!result)
+            if(!Result)
             {
-                this.m_logging.Log(msg, MessageTypeEnum.FAIL);
+                this.m_logging.Log(Messege, MessageTypeEnum.FAIL);
             }
-            this.m_logging.Log(msg, MessageTypeEnum.INFO);
+            this.m_logging.Log(Messege, MessageTypeEnum.INFO);
 
         }
 
@@ -115,12 +125,12 @@ namespace ImageService.Controller.Handlers
                         watcher.EnableRaisingEvents = false;
                         watcher.Dispose();
                     }
-                    EventHandler<DirectoryCloseEventArgs> closeDir = DirectoryClose;
+                    EventHandler<DirectoryCloseEventArgs> CloseDir = DirectoryClose;
                     //if directory is closed method
-                    if(closeDir != null)
+                    if(CloseDir != null)
                     {
                         DirectoryCloseEventArgs arg = new DirectoryCloseEventArgs(m_path, "directory closed");
-                        closeDir(this, arg);
+                        CloseDir(this, arg);
                     }
                     //update log
                     m_logging.Log("directory closed", MessageTypeEnum.INFO);
