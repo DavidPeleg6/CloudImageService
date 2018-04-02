@@ -27,11 +27,11 @@ namespace ImageService.Controller.Handlers
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
-        public DirectoyHandler(ILoggingService logger)
+        public DirectoyHandler(ILoggingService logger, IImageController controller)
         {
             m_dirWatcher = new FileSystemWatcher[4];
             this.m_logging = logger;
-            this.m_controller = new ImageController(new ImageServiceModal());
+            this.m_controller = controller;
         }
 
         /// <summary>
@@ -67,10 +67,9 @@ namespace ImageService.Controller.Handlers
         private void OnCreated(object source, FileSystemEventArgs e)
         {
             //set args for command
-            bool result;
             string[] args = new string[1];
             args[0] = e.FullPath;
-            string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
+            string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out bool result);
             //check if successful and write to log
             if(!result)
             {
@@ -87,9 +86,14 @@ namespace ImageService.Controller.Handlers
         /// <param name="e"> args for the command</param>
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
+            if(!System.IO.Path.Equals(e.RequestDirPath, m_path))
+            {
+                return;
+            }
             //check which command was given
             switch (e.CommandID)
             {
+                /*
                 case (int)CommandEnum.NewFileCommand:
                     //set args for a new command to image controller
                     bool result;
@@ -103,7 +107,7 @@ namespace ImageService.Controller.Handlers
                     }
                     m_logging.Log(msg, MessageTypeEnum.INFO);
                     break;
-
+                 */
                 case (int)CommandEnum.CloseCommand:
                     //stop listening on folder
                     foreach (FileSystemWatcher watcher in m_dirWatcher)
