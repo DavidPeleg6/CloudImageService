@@ -15,6 +15,9 @@ using ImageService.Infrastructure;
 
 namespace ImageService
 {
+    /// <summary>
+    /// An enum used by the system to identify the state of the service.
+    /// </summary>
     public enum ServiceState
     {
         SERVICE_STOPPED = 0x00000001,
@@ -26,6 +29,9 @@ namespace ImageService
         SERVICE_PAUSED = 0x00000007,
     }
     [StructLayout(LayoutKind.Sequential)]
+    /// <summary>
+    /// Provied information about the state of the service.
+    /// </summary>
     public struct ServiceStatus
     {
         public int dwServiceType;
@@ -36,10 +42,16 @@ namespace ImageService
         public int dwCheckPoint;
         public int dwWaitHint;
     };
+    /// <summary>
+    /// A service that runs in the background of the system and services images.
+    /// </summary>
     public partial class ImageService : ServiceBase
     {
         private ILoggingService Logging;
         private int EventID = 1;
+        /// <summary>
+        /// Constructs a new imageservice object.
+        /// </summary>
         public ImageService()
         {
             InitializeComponent();
@@ -57,6 +69,12 @@ namespace ImageService
         }
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
+        /// <summary>
+        /// A function that is trigged when the service is started.
+        /// First it logs the fact that is it starting up the service and also changes its status to SERVICE_START_PENDING
+        /// After that, it logs the fact that the service was started and changes its status to SERVICE_RUNNING.
+        /// </summary>
+        /// <param name="args">The arguements given to the service on startup.</param>
         protected override void OnStart(string[] args)
         {
             eventLog1.WriteEntry("Starting ImageService.");
@@ -65,19 +83,15 @@ namespace ImageService
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             ServiceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
-            /*
-            // Set up a timer to trigger every minute.  
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 60000; // 60 seconds  
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
-            timer.Start();
-            */
             // Update the service state to Running.  
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
             eventLog1.WriteEntry("Started ImageService.");
         }
-
+        /// <summary>
+        /// A function that is trigged when the service is stopped.
+        /// Logs the fact that the service was stopped and changes its status to SERVICE_STOPPED.
+        /// </summary>
         protected override void OnStop()
         {
             //eventLog1.WriteEntry("Stopping ImageService.");
@@ -93,17 +107,14 @@ namespace ImageService
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
             eventLog1.WriteEntry("Stopped ImageService.");
         }
-
+        /// <summary>
+        /// A function to be triggered every time a log entry is written, doesn't do anything for now.
+        /// </summary>
+        /// <param name="sender">The object that requested the log to be written.</param>
+        /// <param name="e">The event args, containing the messege type and messege itself.</param>
         private void eventLog1_EntryWritten(object sender, EntryWrittenEventArgs e)
         {
 
         }
-        /*
-public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
-{
-   // TODO: Insert monitoring activities here.  
-   eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
-}
-*/
     }
 }
