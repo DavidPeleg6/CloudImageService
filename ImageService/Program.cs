@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace MyNewService
 {
+    /// <summary>
+    /// This class is just the entry point for the application.
+    /// All it does is start the service up.
+    /// </summary>
     static class Program
     {
         /// <summary>
