@@ -21,7 +21,7 @@ namespace ImageService.Controller.Handlers
         #region Members
         private IImageController m_controller;              // The Image Processing Controller
         private ILoggingService m_logging;
-        private FileSystemWatcher m_dirWatcher;             // The Watcher of the Directory
+        private FileSystemWatcher[] m_dirWatcher;             // The Watcher of the Directory
         private string m_path;                              // The Path of directory
         #endregion
 
@@ -29,12 +29,15 @@ namespace ImageService.Controller.Handlers
 
         public DirectoyHandler(ILoggingService logger)
         {
+            m_dirWatcher = new FileSystemWatcher[4];
             this.m_logging = logger;
             this.m_controller = new ImageController(new ImageServiceModal());
         }
 
-        //starts the file system watcher
-        //returns if directory doesnt exists
+        /// <summary>
+        /// method to start listening on a given directory
+        /// </summary>
+        /// <param name="dirPath">path to given directory</param>
         public void StartHandleDirectory(string dirPath)
         {
             this.m_path = dirPath;
@@ -43,21 +46,32 @@ namespace ImageService.Controller.Handlers
                 this.m_logging.Log("directory does not exist", MessageTypeEnum.FAIL);
                 return;
             }
-            //set the watcher an filter appropriate types
-            m_dirWatcher = new FileSystemWatcher(dirPath, "*.jpg");
-            m_dirWatcher.Filter = "*.gif";
-            m_dirWatcher.Filter = "*.bmp";
-            m_dirWatcher.Filter = "*.png";
-            m_dirWatcher.Changed += new FileSystemEventHandler(OnCreated);
-            m_dirWatcher.EnableRaisingEvents = true;
+            //set the watchers and filter appropriate types so not every change event invokes the watcher
+            m_dirWatcher[0] = new FileSystemWatcher(dirPath, "*.jpg");
+            m_dirWatcher[1] = new FileSystemWatcher(dirPath, "*.gif");
+            m_dirWatcher[2] = new FileSystemWatcher(dirPath, "*.bmp");
+            m_dirWatcher[3] = new FileSystemWatcher(dirPath, "*.png");
+            //set event
+            foreach(FileSystemWatcher watcher in m_dirWatcher)
+            {
+                watcher.Changed += new FileSystemEventHandler(OnCreated);
+                watcher.EnableRaisingEvents = true;
+            }
         }
-        //TODO change image Modal to support source and target
+
+        /// <summary>
+        /// the event to occur on new object creation
+        /// </summary>
+        /// <param name="source">the file system watcher</param>
+        /// <param name="e">path of new photo</param>
         private void OnCreated(object source, FileSystemEventArgs e)
         {
+            //set args for command
             bool result;
             string[] args = new string[1];
             args[0] = e.FullPath;
             string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
+            //check if successful and write to log
             if(!result)
             {
                 this.m_logging.Log(msg, MessageTypeEnum.FAIL);
@@ -66,15 +80,23 @@ namespace ImageService.Controller.Handlers
 
         }
 
+        /// <summary>
+        /// method to be activated when command enters
+        /// </summary>
+        /// <param name="sender">the sender object</param>
+        /// <param name="e"> args for the command</param>
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
+            //check which command was given
             switch (e.CommandID)
             {
                 case (int)CommandEnum.NewFileCommand:
+                    //set args for a new command to image controller
                     bool result;
                     string[] args = new string[1];
                     args[0] = e.RequestDirPath;
                     string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
+                    //update log
                     if(!result)
                     {
                         m_logging.Log(msg, MessageTypeEnum.FAIL);
@@ -83,14 +105,20 @@ namespace ImageService.Controller.Handlers
                     break;
 
                 case (int)CommandEnum.CloseCommand:
-                    m_dirWatcher.EnableRaisingEvents = false;
-                    m_dirWatcher.Dispose();
+                    //stop listening on folder
+                    foreach (FileSystemWatcher watcher in m_dirWatcher)
+                    {
+                        watcher.EnableRaisingEvents = false;
+                        watcher.Dispose();
+                    }
                     EventHandler<DirectoryCloseEventArgs> closeDir = DirectoryClose;
+                    //if directory is closed method
                     if(closeDir != null)
                     {
                         DirectoryCloseEventArgs arg = new DirectoryCloseEventArgs(m_path, "directory closed");
                         closeDir(this, arg);
                     }
+                    //update log
                     m_logging.Log("directory closed", MessageTypeEnum.INFO);
                     break;
             }

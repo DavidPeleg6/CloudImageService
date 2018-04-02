@@ -20,7 +20,8 @@ namespace ImageService.Modal
     {
         private static Regex RegularExpression = new Regex(":");
         /// <summary>
-        /// The Function Addes A file to the system
+        /// The Function Adds A file in the appropriate place in the file system
+        /// also creates a thumbnail in the appropriate place
         /// </summary>
         /// <param name="path">The Path of the Image from the file</param>
         /// <returns>Indication if the Addition Was Successful</returns>
@@ -34,17 +35,31 @@ namespace ImageService.Modal
             }
             // top-level folder name.
             string OutputPath = ConfigurationManager.AppSettings["OutputDir"];
+            //get file name to update path for copying
+            string FileName = System.IO.Path.GetFileName(path);
             DateTime Date = GetDateTakenFromImage(path);
             //parse date into path for a new folder
             string Time = Date.Year.ToString() + @"\" + Date.Month.ToString();
-            OutputPath = System.IO.Path.Combine(OutputPath, Time);
+
+            //thumbnail creation//
+            int thumbSize = Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]);
+            Bitmap myBitmap = new Bitmap(path);
+            Image myThumbnail = myBitmap.GetThumbnailImage(thumbSize, thumbSize, ()=>false, IntPtr.Zero);
+            string TargetThumb = System.IO.Path.Combine(OutputPath, "Thumbnails");
+            TargetThumb = System.IO.Path.Combine(OutputPath, Time);
             if (!System.IO.Directory.Exists(OutputPath))
             {
                 System.IO.Directory.CreateDirectory(OutputPath);
             }
-            //get file name to update path for copying
-            string FileName = System.IO.Path.GetFileName(path);
-            string TargetFile = System.IO.Path.Combine(OutputPath, FileName);
+            myThumbnail.Save(Path.ChangeExtension(TargetThumb, FileName));
+
+            //pic creation//
+            string TargetFile = System.IO.Path.Combine(OutputPath, Time);
+            if (!System.IO.Directory.Exists(OutputPath))
+            {
+                System.IO.Directory.CreateDirectory(OutputPath);
+            }
+            TargetFile = System.IO.Path.Combine(TargetFile, FileName);
             System.IO.File.Copy(path, TargetFile);
             result = true;
             return OutputPath;
