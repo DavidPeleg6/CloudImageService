@@ -23,14 +23,12 @@ namespace ImageService.Controller.Handlers
         private ILoggingService m_logging;
         private FileSystemWatcher m_dirWatcher;             // The Watcher of the Directory
         private string m_path;                              // The Path of directory
-        private string o_path;                              //path of output directory
         #endregion
 
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
 
-        public DirectoyHandler(ILoggingService logger, string path)
+        public DirectoyHandler(ILoggingService logger)
         {
-            this.o_path = path;
             this.m_logging = logger;
             this.m_controller = new ImageController(new ImageServiceModal());
         }
@@ -57,9 +55,8 @@ namespace ImageService.Controller.Handlers
         private void OnCreated(object source, FileSystemEventArgs e)
         {
             bool result;
-            string[] args = new string[2];
+            string[] args = new string[1];
             args[0] = e.FullPath;
-            args[1] = o_path;
             string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
             if(!result)
             {
@@ -75,9 +72,8 @@ namespace ImageService.Controller.Handlers
             {
                 case (int)CommandEnum.NewFileCommand:
                     bool result;
-                    string[] args = new string[2];
+                    string[] args = new string[1];
                     args[0] = e.RequestDirPath;
-                    args[1] = e.Args[0];
                     string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
                     if(!result)
                     {
