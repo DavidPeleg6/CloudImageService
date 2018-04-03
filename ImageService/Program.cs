@@ -18,7 +18,6 @@ namespace MyNewService
         /// </summary>
         static void Main(string[] args)
         {
-            //TODO something probably
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {

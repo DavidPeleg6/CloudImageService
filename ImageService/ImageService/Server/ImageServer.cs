@@ -43,8 +43,11 @@ namespace ImageService.Server
         public void AddDirectory(string path)
         {
             IDirectoryHandler Handler = new DirectoyHandler(m_logging, m_controller);
-            CommandRecieved += Handler.OnCommandRecieved;
-            Handler.DirectoryClose += OnDirectoryClose;
+            if (Handler.StartHandleDirectory(path))
+            {
+                CommandRecieved += Handler.OnCommandRecieved;
+                Handler.DirectoryClose += OnDirectoryClose;
+            }
         }
         /// <summary>
         /// A function that is called when a directory is closed.
@@ -62,7 +65,10 @@ namespace ImageService.Server
         {
             CommandRecievedEventArgs Args = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand,
                 null, "*");
-            CommandRecieved(this, Args);
+            if (CommandRecieved != null)
+            {
+                CommandRecieved(this, Args);
+            }
         }
        
     }

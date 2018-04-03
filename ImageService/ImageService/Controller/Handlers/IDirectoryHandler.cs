@@ -20,7 +20,8 @@ namespace ImageService.Controller.Handlers
         /// method to start listening on a given directory
         /// </summary>
         /// <param name="dirPath">path to given directory</param>
-        void StartHandleDirectory(string dirPath);                               // The Function Recieves the directory to Handle
+        /// <returns>false if an error occured, true otherwise</returns>
+        bool StartHandleDirectory(string dirPath);                               // The Function Recieves the directory to Handle
         /// <summary>
         /// method to be activated when command enters
         /// </summary>

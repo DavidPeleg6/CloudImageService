@@ -47,13 +47,13 @@ namespace ImageService.Controller.Handlers
         /// method to start listening on a given directory
         /// </summary>
         /// <param name="dirPath">path to given directory</param>
-        public void StartHandleDirectory(string dirPath)
+        public bool StartHandleDirectory(string dirPath)
         {
             this.m_path = dirPath;
             if (!System.IO.Directory.Exists(dirPath))
             {
-                this.m_logging.Log("directory does not exist", MessageTypeEnum.FAIL);
-                return;
+                this.m_logging.Log("Directory does not exist: " + dirPath, MessageTypeEnum.FAIL);
+                return false;
             }
             //set the watchers and filter appropriate types so not every change event invokes the watcher
             m_dirWatcher[0] = new FileSystemWatcher(dirPath, "*.jpg");
@@ -63,11 +63,13 @@ namespace ImageService.Controller.Handlers
             //set event
             foreach(FileSystemWatcher watcher in m_dirWatcher)
             {
-                watcher.Changed += new FileSystemEventHandler(OnCreated);
+                watcher.Created += new FileSystemEventHandler(OnCreated);
+                //watcher.Changed += new FileSystemEventHandler(OnCreated);
                 watcher.EnableRaisingEvents = true;
             }
+            this.m_logging.Log("Watching directory: " + dirPath, MessageTypeEnum.INFO);
+            return true;
         }
-
         /// <summary>
         /// the event to occur on new object creation
         /// </summary>
@@ -81,9 +83,10 @@ namespace ImageService.Controller.Handlers
             bool Result;
             string Messege = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
             //check if successful and write to log
-            if(!Result)
+            if (!Result)
             {
                 this.m_logging.Log(Messege, MessageTypeEnum.FAIL);
+                return;
             }
             this.m_logging.Log(Messege, MessageTypeEnum.INFO);
 
@@ -96,7 +99,7 @@ namespace ImageService.Controller.Handlers
         /// <param name="e"> args for the command</param>
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
-            if(!System.IO.Path.Equals(e.RequestDirPath, m_path))
+            if (!(System.IO.Path.Equals(e.RequestDirPath, m_path) || String.Equals("*", e.RequestDirPath)))
             {
                 return;
             }
@@ -120,14 +123,21 @@ namespace ImageService.Controller.Handlers
                  */
                 case (int)CommandEnum.CloseCommand:
                     //stop listening on folder
-                    foreach (FileSystemWatcher watcher in m_dirWatcher)
+                    /*foreach (FileSystemWatcher watcher in m_dirWatcher)
                     {
+                        m_logging.Log("3.0" + fuck, MessageTypeEnum.WARNING);
                         watcher.EnableRaisingEvents = false;
+                        m_logging.Log("3.1" + fuck++, MessageTypeEnum.WARNING);
                         watcher.Dispose();
+                    }*/
+                    for (int i = 0; i < m_dirWatcher.Length; i++)
+                    {
+                        m_dirWatcher[i].EnableRaisingEvents = false;
+                        m_dirWatcher[i].Dispose();
                     }
                     EventHandler<DirectoryCloseEventArgs> CloseDir = DirectoryClose;
                     //if directory is closed method
-                    if(CloseDir != null)
+                    if (CloseDir != null)
                     {
                         DirectoryCloseEventArgs arg = new DirectoryCloseEventArgs(m_path, "directory closed");
                         CloseDir(this, arg);

@@ -18,7 +18,6 @@ namespace ImageService.Modal
     /// </summary>
     public class ImageServiceModal : IImageServiceModal
     {
-        private static Regex RegularExpression = new Regex(":");
         /// <summary>
         /// The Function Adds A file in the appropriate place in the file system
         /// also creates a thumbnail in the appropriate place
@@ -27,44 +26,68 @@ namespace ImageService.Modal
         /// <returns>Indication if the Addition Was Successful</returns>
         public string AddFile(string path, out bool result)
         {
+            result = false;
             //first check if file exists
-            if(!System.IO.File.Exists(path))
+            try
             {
-                result = false;
-                return "AddFile error: File does not exist.";
-            }
-            // top-level folder name.
-            string OutputPath = ConfigurationManager.AppSettings["OutputDir"];
-            //get file name to update path for copying
-            string FileName = System.IO.Path.GetFileName(path);
-            DateTime Date = GetDateTakenFromImage(path);
-            //parse date into path for a new folder
-            string Time = Date.Year.ToString() + @"\" + Date.Month.ToString();
+                if (!System.IO.File.Exists(path))
+                {
+                    result = false;
+                    return "AddFile error: File does not exist.";
+                }
+                // top-level folder name.
+                string OutputPath = ConfigurationManager.AppSettings["OutputDir"];
+                //get file name to update path for copying
+                string FileName = System.IO.Path.GetFileName(path);
+                DateTime Date = System.IO.File.GetCreationTime(path);
+                //parse date into path for a new folder
+                //string Time = Date.Year.ToString() + @"\" + Date.Month.ToString();
+                string Time = System.IO.Path.Combine(Date.Year.ToString(), Date.Month.ToString());
+                //thumbnail creation//
+                int ThumbSize = Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]);
+                Thread.Sleep(1000);
+                System.IO.FileStream STREAM = new FileStream(path, FileMode.Open);
+                Bitmap MyBitmap;
+                try
+                {
+                    MyBitmap = (Bitmap)Image.FromStream(STREAM);
+                }
+                catch (Exception e)
+                {
+                    return "Error: " + e.ToString() + "\n" + e.StackTrace.ToString() + "\n" + e.HelpLink;
+                }
+                Image MyThumbnail = MyBitmap.GetThumbnailImage(ThumbSize, ThumbSize, () => false, IntPtr.Zero);
+                string TargetThumb = System.IO.Path.Combine(OutputPath, "Thumbnails");
+                TargetThumb = System.IO.Path.Combine(TargetThumb, Time);
 
-            //thumbnail creation//
-            int thumbSize = Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]);
-            Bitmap myBitmap = new Bitmap(path);
-            Image myThumbnail = myBitmap.GetThumbnailImage(thumbSize, thumbSize, ()=>false, IntPtr.Zero);
-            string TargetThumb = System.IO.Path.Combine(OutputPath, "Thumbnails");
-            TargetThumb = System.IO.Path.Combine(OutputPath, Time);
-            if (!System.IO.Directory.Exists(OutputPath))
-            {
-                System.IO.Directory.CreateDirectory(OutputPath);
-            }
-            myThumbnail.Save(Path.ChangeExtension(TargetThumb, FileName));
+                if (!System.IO.Directory.Exists(TargetThumb))
+                {
+                    System.IO.Directory.CreateDirectory(TargetThumb);
+                }
+                MyThumbnail.Save(Path.Combine(TargetThumb, FileName));
 
-            //pic creation//
-            string TargetFile = System.IO.Path.Combine(OutputPath, Time);
-            if (!System.IO.Directory.Exists(OutputPath))
-            {
-                System.IO.Directory.CreateDirectory(OutputPath);
+                //pic creation//
+                string TargetFile = System.IO.Path.Combine(OutputPath, Time);
+                if (!System.IO.Directory.Exists(TargetFile))
+                {
+                    System.IO.Directory.CreateDirectory(TargetFile);
+                }
+                TargetFile = System.IO.Path.Combine(TargetFile, FileName);
+                System.IO.File.Copy(path, TargetFile);
+                //return "test1"; //todo remove this
+                MyBitmap.Dispose();
+                MyThumbnail.Dispose();
+                STREAM.Flush();
+                result = true;
+                return OutputPath;
             }
-            TargetFile = System.IO.Path.Combine(TargetFile, FileName);
-            System.IO.File.Copy(path, TargetFile);
-            result = true;
-            return OutputPath;
+            catch (Exception e)
+            {
+                return "Error: " + e.ToString() + "\n" + e.StackTrace.ToString() + "\n" + e.HelpLink;
+            }
         }
 
+        /*
         /// <summary>
         /// A function that retrieves the datetime WITHOUT loading the whole image.
         /// </summary>
@@ -80,5 +103,6 @@ namespace ImageService.Modal
                 return DateTime.Parse(DateTaken);
             }
         }
+        */
     }
 }

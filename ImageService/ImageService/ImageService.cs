@@ -12,6 +12,7 @@ using ImageService.Logging;
 using ImageService.Logging.Modal;
 using System.Configuration;
 using ImageService.Infrastructure;
+using ImageService.Server;
 
 namespace ImageService
 {
@@ -48,15 +49,15 @@ namespace ImageService
     public partial class ImageService : ServiceBase
     {
         private ILoggingService Logging;
-        private int EventID = 1;
+        //private EventLog eventLog1;
+        //private int EventID = 1;
+        private ImageServer Server;
         /// <summary>
         /// Constructs a new imageservice object.
         /// </summary>
         public ImageService()
         {
             InitializeComponent();
-            //string eventSourceName = "MySource";
-            //string logName = "MyNewLog";
             string EventSourceName = ConfigurationManager.AppSettings["SourceName"];
             string LogName = ConfigurationManager.AppSettings["LogName"];
             eventLog1 = new System.Diagnostics.EventLog();
@@ -66,6 +67,31 @@ namespace ImageService
             }
             eventLog1.Source = EventSourceName;
             eventLog1.Log = LogName;
+        }
+        /// <summary>
+        /// The class used by the event for logging.
+        /// </summary>
+        /// <param name="sender">the sender of the thing</param>
+        /// <param name="args">the evernt arguements</param>
+        private void c_MessageRecieved(object sender, MessageRecievedEventArgs args)
+        {
+            EventLogEntryType EventLogType;
+            switch (args.Status)
+            {
+                case MessageTypeEnum.FAIL:
+                    EventLogType = EventLogEntryType.Error;
+                    break;
+                case MessageTypeEnum.INFO:
+                    EventLogType = EventLogEntryType.Information;
+                    break;
+                case MessageTypeEnum.WARNING:
+                    EventLogType = EventLogEntryType.Warning;
+                    break;
+                default:
+                    EventLogType = EventLogEntryType.Error;
+                    break;
+            }
+            eventLog1.WriteEntry(args.Message, EventLogType);
         }
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
@@ -83,6 +109,15 @@ namespace ImageService
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             ServiceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
+            //START IT UP HERE
+            Logging = new LoggingService();
+            Logging.MessageRecieved += c_MessageRecieved;
+            Server = new ImageServer(Logging);
+            String[] Handelers = ConfigurationManager.AppSettings["Handler"].Split(';');
+            for (int i = 0; i < Handelers.Count(); i++)
+            {
+                Server.AddDirectory(Handelers[i]);
+            }
             // Update the service state to Running.  
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
@@ -97,10 +132,10 @@ namespace ImageService
             //eventLog1.WriteEntry("Stopping ImageService.");
             // Update the service state to stop Pending.  
             ServiceStatus ServiceStatus = new ServiceStatus();
-           // serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
+            // serviceStatus.dwCurrentState = ServiceState.SERVICE_STOP_PENDING;
             //serviceStatus.dwWaitHint = 100000;
             //SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-
+            Server.CloseServer();
             //uncomment the above to reinclude 'stop pending' messege
             // Update the service state to stopped.  
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
