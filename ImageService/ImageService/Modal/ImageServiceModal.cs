@@ -39,18 +39,31 @@ namespace ImageService.Modal
                 string OutputPath = ConfigurationManager.AppSettings["OutputDir"];
                 //get file name to update path for copying
                 string FileName = System.IO.Path.GetFileName(path);
-                DateTime Date = System.IO.File.GetCreationTime(path);
-                //parse date into path for a new folder
-                //string Time = Date.Year.ToString() + @"\" + Date.Month.ToString();
-                string Time = System.IO.Path.Combine(Date.Year.ToString(), Date.Month.ToString());
                 //thumbnail creation//
                 int ThumbSize = Int32.Parse(ConfigurationManager.AppSettings["ThumbnailSize"]);
                 Thread.Sleep(1000);
-                System.IO.FileStream STREAM = new FileStream(path, FileMode.Open);
+                System.IO.FileStream Stream = new FileStream(path, FileMode.Open);
+                DateTime Date;
+                try
+                {
+                    //try to get the date the image was taken on.
+                    PropertyItem PropItem = Image.FromStream(Stream, false, false).GetPropertyItem(36867);
+                    Regex RegularExpression = new Regex(":");
+                    string dateTaken = RegularExpression.Replace(Encoding.UTF8.GetString(PropItem.Value), "-", 2);
+                    Date = DateTime.Parse(dateTaken);
+                } catch
+                {
+                    //If the date could not be recovered or does not exist,
+                    //use the file creation date instead
+                    Date = System.IO.File.GetCreationTime(path);
+                }
+                //parse date into path for a new folder
+                //string Time = Date.Year.ToString() + @"\" + Date.Month.ToString();
+                string Time = System.IO.Path.Combine(Date.Year.ToString(), Date.Month.ToString());
                 Bitmap MyBitmap;
                 try
                 {
-                    MyBitmap = (Bitmap)Image.FromStream(STREAM);
+                    MyBitmap = (Bitmap)Image.FromStream(Stream);
                 }
                 catch (Exception e)
                 {
@@ -77,9 +90,9 @@ namespace ImageService.Modal
                 //return "test1"; //todo remove this
                 MyBitmap.Dispose();
                 MyThumbnail.Dispose();
-                STREAM.Flush();
+                Stream.Flush();
                 result = true;
-                return OutputPath;
+                return System.IO.Path.Combine(OutputPath, FileName); ;
             }
             catch (Exception e)
             {
