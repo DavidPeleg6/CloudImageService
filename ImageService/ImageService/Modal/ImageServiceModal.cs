@@ -91,6 +91,7 @@ namespace ImageService.Modal
                 MyBitmap.Dispose();
                 MyThumbnail.Dispose();
                 Stream.Flush();
+                Stream.Close();
                 result = true;
                 return System.IO.Path.Combine(OutputPath, FileName); ;
             }
