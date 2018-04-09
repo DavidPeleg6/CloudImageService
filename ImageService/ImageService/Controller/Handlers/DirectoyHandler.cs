@@ -12,7 +12,6 @@ using ImageService.Logging.Modal;
 using System.Text.RegularExpressions;
 using System.Security.Permissions;
 using ImageService.Commands;
-using System.Threading.Tasks;
 
 
 namespace ImageService.Controller.Handlers
@@ -81,11 +80,13 @@ namespace ImageService.Controller.Handlers
             //set args for command
             string[] Args = new string[1];
             Args[0] = e.FullPath;
-            bool Result;
-            Task<string> t = new Task<string>(() =>
-            {
-                t.Result = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
-            }).Start();
+            bool Result = true;
+            Task<string> t = new Task<string>(() => {
+                string message = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
+                return message;
+            });
+            t.Start();
+            t.Wait();
             //check if successful and write to log
             if (!Result)
             {
@@ -145,7 +146,8 @@ namespace ImageService.Controller.Handlers
                         m_logging.Log("directory closed", MessageTypeEnum.INFO);
                         break;
                 }
-            }).Start();
+            });
+            t.Start();
 }
     }
 }
