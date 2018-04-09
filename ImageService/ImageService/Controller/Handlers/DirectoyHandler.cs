@@ -81,14 +81,17 @@ namespace ImageService.Controller.Handlers
             string[] Args = new string[1];
             Args[0] = e.FullPath;
             bool Result;
-            string Messege = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
+            Task<string> t = new Task<string>(() =>
+            {
+                return this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
+            }).Start();
             //check if successful and write to log
             if (!Result)
             {
-                this.m_logging.Log(Messege, MessageTypeEnum.FAIL);
+                this.m_logging.Log(t.Result, MessageTypeEnum.FAIL);
                 return;
             }
-            this.m_logging.Log(Messege, MessageTypeEnum.INFO);
+            this.m_logging.Log(t.Result, MessageTypeEnum.INFO);
 
         }
 
@@ -103,49 +106,45 @@ namespace ImageService.Controller.Handlers
             {
                 return;
             }
-            //check which command was given
-            switch (e.CommandID)
+            //check which command was given and execute in a new Task
+            Task t = new Task(() =>
             {
-                /*
-                case (int)CommandEnum.NewFileCommand:
-                    //set args for a new command to image controller
-                    bool result;
-                    string[] args = new string[1];
-                    args[0] = e.RequestDirPath;
-                    string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
-                    //update log
-                    if(!result)
-                    {
-                        m_logging.Log(msg, MessageTypeEnum.FAIL);
-                    }
-                    m_logging.Log(msg, MessageTypeEnum.INFO);
-                    break;
-                 */
-                case (int)CommandEnum.CloseCommand:
-                    //stop listening on folder
-                    /*foreach (FileSystemWatcher watcher in m_dirWatcher)
-                    {
-                        m_logging.Log("3.0" + fuck, MessageTypeEnum.WARNING);
-                        watcher.EnableRaisingEvents = false;
-                        m_logging.Log("3.1" + fuck++, MessageTypeEnum.WARNING);
-                        watcher.Dispose();
-                    }*/
-                    for (int i = 0; i < m_dirWatcher.Length; i++)
-                    {
-                        m_dirWatcher[i].EnableRaisingEvents = false;
-                        m_dirWatcher[i].Dispose();
-                    }
-                    EventHandler<DirectoryCloseEventArgs> CloseDir = DirectoryClose;
-                    //if directory is closed method
-                    if (CloseDir != null)
-                    {
-                        DirectoryCloseEventArgs arg = new DirectoryCloseEventArgs(m_path, "directory closed");
-                        CloseDir(this, arg);
-                    }
-                    //update log
-                    m_logging.Log("directory closed", MessageTypeEnum.INFO);
-                    break;
-            }
-        }
+                switch (e.CommandID)
+                {
+                    /* 
+                     * to be added when a new file adding functionality wanted
+                    case (int)CommandEnum.NewFileCommand:
+                        //set args for a new command to image controller
+                        bool result;
+                        string[] args = new string[1];
+                        args[0] = e.RequestDirPath;
+                        string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
+                        //update log
+                        if(!result)
+                        {
+                            m_logging.Log(msg, MessageTypeEnum.FAIL);
+                        }
+                        m_logging.Log(msg, MessageTypeEnum.INFO);
+                        break;
+                     */
+                    case (int)CommandEnum.CloseCommand:
+                        for (int i = 0; i < m_dirWatcher.Length; i++)
+                        {
+                            m_dirWatcher[i].EnableRaisingEvents = false;
+                            m_dirWatcher[i].Dispose();
+                        }
+                        EventHandler<DirectoryCloseEventArgs> CloseDir = DirectoryClose;
+                        //if directory is closed method
+                        if (CloseDir != null)
+                        {
+                            DirectoryCloseEventArgs arg = new DirectoryCloseEventArgs(m_path, "directory closed");
+                            CloseDir(this, arg);
+                        }
+                        //update log
+                        m_logging.Log("directory closed", MessageTypeEnum.INFO);
+                        break;
+                }
+            }).Start();
+}
     }
 }
