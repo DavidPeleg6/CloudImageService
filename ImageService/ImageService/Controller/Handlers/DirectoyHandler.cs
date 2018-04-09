@@ -12,6 +12,7 @@ using ImageService.Logging.Modal;
 using System.Text.RegularExpressions;
 using System.Security.Permissions;
 using ImageService.Commands;
+using System.Threading.Tasks;
 
 
 namespace ImageService.Controller.Handlers
@@ -83,7 +84,7 @@ namespace ImageService.Controller.Handlers
             bool Result;
             Task<string> t = new Task<string>(() =>
             {
-                return this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
+                t.Result = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, Args, out Result);
             }).Start();
             //check if successful and write to log
             if (!Result)
