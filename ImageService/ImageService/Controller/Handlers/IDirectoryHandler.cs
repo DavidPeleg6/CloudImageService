@@ -16,6 +16,8 @@ namespace ImageService.Controller.Handlers
         /// The Event That Notifies that the Directory is being closed
         /// </summary>
         event EventHandler<DirectoryCloseEventArgs> DirectoryClose;              // The Event That Notifies that the Directory is being closed
+        //TODO write shit normally
+        event EventHandler<Modal.Event.LogChangedEventArgs> LogChanged;
         /// <summary>
         /// method to start listening on a given directory
         /// </summary>

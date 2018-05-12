@@ -73,7 +73,7 @@ namespace ImageService
         /// </summary>
         /// <param name="sender">the sender of the thing</param>
         /// <param name="args">the evernt arguements</param>
-        private void c_MessageRecieved(object sender, MessageRecievedEventArgs args)
+        private void C_MessageRecieved(object sender, MessageRecievedEventArgs args)
         {
             EventLogEntryType EventLogType;
             switch (args.Status)
@@ -111,8 +111,10 @@ namespace ImageService
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
             //START IT UP HERE
             Logging = new LoggingService();
-            Logging.MessageRecieved += c_MessageRecieved;
-            Server = new ImageServer(Logging);
+            Logging.MessageRecieved += C_MessageRecieved;
+            //TODO write shit normally
+            IClientHandler handler = new ClientHandler();
+            Server = new ImageServer(Logging ,handler);
             String[] Handelers = ConfigurationManager.AppSettings["Handler"].Split(';');
             for (int i = 0; i < Handelers.Count(); i++)
             {
@@ -121,6 +123,7 @@ namespace ImageService
             // Update the service state to Running.  
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
+            Server.ServerStart();
             eventLog1.WriteEntry("Started ImageService.");
         }
         /// <summary>
@@ -147,7 +150,7 @@ namespace ImageService
         /// </summary>
         /// <param name="sender">The object that requested the log to be written.</param>
         /// <param name="e">The event args, containing the messege type and messege itself.</param>
-        private void eventLog1_EntryWritten(object sender, EntryWrittenEventArgs e)
+        private void EventLog1_EntryWritten(object sender, EntryWrittenEventArgs e)
         {
 
         }

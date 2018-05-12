@@ -1,18 +1,11 @@
 ﻿using ImageService.Modal;
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using ImageService.Infrastructure;
 using ImageService.Infrastructure.Enums;
 using ImageService.Logging;
 using ImageService.Logging.Modal;
-using System.Text.RegularExpressions;
-using System.Security.Permissions;
-using ImageService.Commands;
-
+using ImageService.Modal.Event;
 
 namespace ImageService.Controller.Handlers
 {
@@ -31,6 +24,8 @@ namespace ImageService.Controller.Handlers
         /// The Event That Notifies that the Directory is being closed
         /// </summary>
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;
+        //TODO write shit normally
+        public event EventHandler<LogChangedEventArgs> LogChanged;
         /// <summary>
         /// Contructs a new DirectoyHandler instance.
         /// </summary>
@@ -53,6 +48,8 @@ namespace ImageService.Controller.Handlers
             if (!System.IO.Directory.Exists(dirPath))
             {
                 this.m_logging.Log("Directory does not exist: " + dirPath, MessageTypeEnum.FAIL);
+                //TODO write shit normally
+                LogChanged?.Invoke(this, new LogChangedEventArgs("Directory does not exist " + dirPath, MessageTypeEnum.FAIL));
                 return false;
             }
             //set the watchers and filter appropriate types so not every change event invokes the watcher
@@ -68,8 +65,11 @@ namespace ImageService.Controller.Handlers
                 watcher.EnableRaisingEvents = true;
             }
             this.m_logging.Log("Watching directory: " + dirPath, MessageTypeEnum.INFO);
+            //TODO write shit normally
+            LogChanged?.Invoke(this, new LogChangedEventArgs("Watching directory " + dirPath, MessageTypeEnum.INFO));
             return true;
         }
+       
         /// <summary>
         /// the event to occur on new object creation
         /// </summary>
@@ -91,10 +91,13 @@ namespace ImageService.Controller.Handlers
             if (!Result)
             {
                 this.m_logging.Log(t.Result, MessageTypeEnum.FAIL);
+                //TODO write shit normally
+                LogChanged?.Invoke(this, new LogChangedEventArgs("copy failed " + e.FullPath, MessageTypeEnum.FAIL));
                 return;
             }
             this.m_logging.Log(t.Result, MessageTypeEnum.INFO);
-
+            //TODO write shit normally
+            LogChanged?.Invoke(this, new LogChangedEventArgs("copy succeeded " + e.FullPath, MessageTypeEnum.INFO));
         }
 
         /// <summary>
@@ -144,6 +147,8 @@ namespace ImageService.Controller.Handlers
                         }
                         //update log
                         m_logging.Log("directory closed", MessageTypeEnum.INFO);
+                        //TODO write shit normally
+                        LogChanged?.Invoke(this, new LogChangedEventArgs(m_path + " directory closed", MessageTypeEnum.INFO));
                         break;
                 }
             });
