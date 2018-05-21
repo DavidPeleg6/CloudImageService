@@ -1,0 +1,12 @@
+﻿<Window x:Class="ImageService.GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageService.GUI"
+        mc:Ignorable="d"
+        Title="ImageService - Avihai Didi and Dudu Geda" Height="400" Width="635">
+    <Grid>
+        <TabControl x:Name="tabControl1" HorizontalAlignment="Left" Height="370" VerticalAlignment="Top" Width="627"/>
+    </Grid>
+</Window>
