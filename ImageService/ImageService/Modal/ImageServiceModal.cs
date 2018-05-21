@@ -84,6 +84,14 @@ namespace ImageService.Modal
                 if (!System.IO.Directory.Exists(TargetFile))
                 {
                     System.IO.Directory.CreateDirectory(TargetFile);
+                    DirectoryInfo di = new DirectoryInfo(TargetFile);
+                    //TODO check if this works== possible bug in code
+                    //See if directory has hidden flag, if not, make hidden
+                    if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
+                    {
+                        //Add Hidden flag    
+                        di.Attributes |= FileAttributes.Hidden;
+                    }
                 }
                 TargetFile = System.IO.Path.Combine(TargetFile, FileName);
                 System.IO.File.Copy(path, TargetFile);

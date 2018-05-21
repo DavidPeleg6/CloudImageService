@@ -18,12 +18,14 @@ namespace MyNewService
         /// </summary>
         static void Main(string[] args)
         {
+               
+            /*
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
                 new ImageService.ImageService()
             };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(ServicesToRun);*/
         }
     }
 }

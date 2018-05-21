@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using ImageService.Infrastructure.Enums;
 using ImageService.Logging;
 using ImageService.Logging.Modal;
-using ImageService.Modal.Event;
+using ImageService.Infrastructure.Event;
+using ImageService.Infastructure.Event;
 
 namespace ImageService.Controller.Handlers
 {
@@ -23,8 +24,8 @@ namespace ImageService.Controller.Handlers
         /// <summary>
         /// The Event That Notifies that the Directory is being closed
         /// </summary>
-        public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;
-        //TODO write shit normally
+        public event EventHandler<CommandDoneEventArgs> CommandDone;
+        public event EventHandler<DirectoryCloseEventArgs> DirectoryClosing;
         public event EventHandler<LogChangedEventArgs> LogChanged;
         /// <summary>
         /// Contructs a new DirectoyHandler instance.
@@ -48,7 +49,6 @@ namespace ImageService.Controller.Handlers
             if (!System.IO.Directory.Exists(dirPath))
             {
                 this.m_logging.Log("Directory does not exist: " + dirPath, MessageTypeEnum.FAIL);
-                //TODO write shit normally
                 LogChanged?.Invoke(this, new LogChangedEventArgs("Directory does not exist " + dirPath, MessageTypeEnum.FAIL));
                 return false;
             }
@@ -65,7 +65,6 @@ namespace ImageService.Controller.Handlers
                 watcher.EnableRaisingEvents = true;
             }
             this.m_logging.Log("Watching directory: " + dirPath, MessageTypeEnum.INFO);
-            //TODO write shit normally
             LogChanged?.Invoke(this, new LogChangedEventArgs("Watching directory " + dirPath, MessageTypeEnum.INFO));
             return true;
         }
@@ -91,12 +90,10 @@ namespace ImageService.Controller.Handlers
             if (!Result)
             {
                 this.m_logging.Log(t.Result, MessageTypeEnum.FAIL);
-                //TODO write shit normally
                 LogChanged?.Invoke(this, new LogChangedEventArgs("copy failed " + e.FullPath, MessageTypeEnum.FAIL));
                 return;
             }
             this.m_logging.Log(t.Result, MessageTypeEnum.INFO);
-            //TODO write shit normally
             LogChanged?.Invoke(this, new LogChangedEventArgs("copy succeeded " + e.FullPath, MessageTypeEnum.INFO));
         }
 
@@ -105,54 +102,31 @@ namespace ImageService.Controller.Handlers
         /// </summary>
         /// <param name="sender">the sender object</param>
         /// <param name="e"> args for the command</param>
-        public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
+        public void OnCommandRecieved(object sender, ClientCommandEventArgs e)
         {
-            if (!(System.IO.Path.Equals(e.RequestDirPath, m_path) || String.Equals("*", e.RequestDirPath)))
+            if (!(System.IO.Path.Equals(e.Args.RequestDirPath, m_path) || String.Equals("*", e.Args.RequestDirPath)))
             {
                 return;
             }
             //check which command was given and execute in a new Task
             Task t = new Task(() =>
             {
-                switch (e.CommandID)
+                bool result;
+                string output = m_controller.ExecuteCommand(e.Args.CommandID, e.Args.Args, out result);
+                if (e.Args.CommandID == (int)CommandEnum.CloseCommand)
                 {
-                    /* 
-                     * to be added when a new file adding functionality wanted
-                    case (int)CommandEnum.NewFileCommand:
-                        //set args for a new command to image controller
-                        bool result;
-                        string[] args = new string[1];
-                        args[0] = e.RequestDirPath;
-                        string msg = this.m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
-                        //update log
-                        if(!result)
-                        {
-                            m_logging.Log(msg, MessageTypeEnum.FAIL);
-                        }
-                        m_logging.Log(msg, MessageTypeEnum.INFO);
-                        break;
-                     */
-                    case (int)CommandEnum.CloseCommand:
-                        for (int i = 0; i < m_dirWatcher.Length; i++)
-                        {
-                            m_dirWatcher[i].EnableRaisingEvents = false;
-                            m_dirWatcher[i].Dispose();
-                        }
-                        EventHandler<DirectoryCloseEventArgs> CloseDir = DirectoryClose;
-                        //if directory is closed method
-                        if (CloseDir != null)
-                        {
-                            DirectoryCloseEventArgs arg = new DirectoryCloseEventArgs(m_path, "directory closed");
-                            CloseDir(this, arg);
-                        }
-                        //update log
-                        m_logging.Log("directory closed", MessageTypeEnum.INFO);
-                        //TODO write shit normally
-                        LogChanged?.Invoke(this, new LogChangedEventArgs(m_path + " directory closed", MessageTypeEnum.INFO));
-                        break;
+                    for (int i = 0; i < m_dirWatcher.Length; i++)
+                    {
+                        m_dirWatcher[i].EnableRaisingEvents = false;
+                        m_dirWatcher[i].Dispose();
+                    }
+                    CommandDone?.Invoke(this, new CommandDoneEventArgs(e.Client, output));
+                    DirectoryClosing?.Invoke(this, new DirectoryCloseEventArgs(null, null));
+                    return;
                 }
+                CommandDone?.Invoke(this, new CommandDoneEventArgs(e.Client, output));
             });
             t.Start();
-}
+        }
     }
 }

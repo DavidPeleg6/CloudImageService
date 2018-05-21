@@ -1,6 +1,6 @@
 ﻿namespace ImageService
 {
-    partial class ImageService
+    public partial class ImageService
     {
         /// <summary> 
         /// Required designer variable.
@@ -33,7 +33,7 @@
             // 
             // eventLog1
             // 
-            this.eventLog1.EntryWritten += new System.Diagnostics.EntryWrittenEventHandler(this.eventLog1_EntryWritten);
+            this.eventLog1.EntryWritten += new System.Diagnostics.EntryWrittenEventHandler(this.EventLog1_EntryWritten);
             // 
             // ImageService
             // 

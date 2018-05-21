@@ -13,6 +13,7 @@ using ImageService.Logging.Modal;
 using System.Configuration;
 using ImageService.Infrastructure;
 using ImageService.Server;
+using System.Net;
 
 namespace ImageService
 {
@@ -112,9 +113,8 @@ namespace ImageService
             //START IT UP HERE
             Logging = new LoggingService();
             Logging.MessageRecieved += C_MessageRecieved;
-            //TODO write shit normally
-            IClientHandler handler = new ClientHandler();
-            Server = new ImageServer(Logging ,handler);
+            Communication.Server ComServer = Communication.Server.GetServer(); 
+            Server = new ImageServer(Logging);
             String[] Handelers = ConfigurationManager.AppSettings["Handler"].Split(';');
             for (int i = 0; i < Handelers.Count(); i++)
             {
@@ -123,7 +123,9 @@ namespace ImageService
             // Update the service state to Running.  
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
-            Server.ServerStart();
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["IP"]),
+                int.Parse(ConfigurationManager.AppSettings["port"]));
+            ComServer.ServerStart(ep);
             eventLog1.WriteEntry("Started ImageService.");
         }
         /// <summary>

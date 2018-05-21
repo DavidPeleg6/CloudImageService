@@ -1,4 +1,5 @@
 ﻿using ImageService.Infrastructure;
+using ImageService.Infrastructure.Event;
 using ImageService.Modal;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace ImageService.Commands
     /// </summary>
     public class NewFileCommand : ICommand
     {
+        public EventHandler<LogChangedEventArgs> inform_new_file;
+
         private IImageServiceModal m_modal;
         /// <summary>
         /// Makes a new newfile command.

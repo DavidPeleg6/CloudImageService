@@ -24,11 +24,17 @@ namespace ImageService.Controller
         public ImageController(IImageServiceModal modal)
         {
             m_modal = modal;                    // Storing the Modal Of The System
-            commands = new Dictionary<int, ICommand>()
-            {
-                {(int)CommandEnum.NewFileCommand, new NewFileCommand(m_modal)}
-				// For Now will contain NEW_FILE_COMMAND
-            };
+            commands = new Dictionary<int, ICommand>();
+            NewFileCommand file = new NewFileCommand(m_modal);
+            LogCommand logger = new LogCommand();
+            CloseCommand close = new CloseCommand();
+            close.inform_close += logger.OnLogChange;
+            file.inform_new_file += logger.OnLogChange;
+            commands.Add((int)CommandEnum.NewFileCommand, file);
+            commands.Add((int)CommandEnum.LogCommand, logger);
+            commands.Add((int)CommandEnum.CloseCommand, close);
+            commands.Add((int)CommandEnum.GetConfigCommand, new GetConfigCommand());
+            
         }
         /// <summary>
         /// Executes a command specified by the commandID using internal logic.
