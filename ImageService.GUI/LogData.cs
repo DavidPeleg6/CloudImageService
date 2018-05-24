@@ -4,26 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using ImageService.Logging.Modal;
 
 namespace ImageService.GUI
 {
+    /// <summary>
+    /// Log data, a class used by the logs window to conviniently store log data.
+    /// </summary>
     class LogData
     {
         private int type_num;
-        public LogData(int type, string message)
-        {
-            if (type <= 2 && 0 <= type)
-                type_num = type;
-            else
-                type_num = (int)LogDataEnum.DISPLAYERROR;
-            this.Message = message;
-        }
-        public LogData(LogDataEnum type, string message)
+        /// <summary>
+        /// constructor, makes a logdata object. only keeps the type if its valid (between 0 and 2).
+        /// Sets it to 0 otherwise.
+        /// </summary>
+        /// <param name="type">The type of message, can be INFO, WARNING or ERROR.</param>
+        /// <param name="message">The log message itself.</param>
+        public LogData(MessageTypeEnum type, string message)
         {
             if ((int)type <= 2 && 0 <= (int)type)
                 type_num = (int)type;
             else
-                type_num = (int)LogDataEnum.DISPLAYERROR;
+                type_num = -1;
             this.Message = message;
         }
         public string Type {
@@ -32,15 +34,11 @@ namespace ImageService.GUI
             {
                 switch (type_num)
                 {
-                    case (int)LogDataEnum.INFO: return "INFO";
-                    case (int)LogDataEnum.ERROR: return "ERROR";
-                    case (int)LogDataEnum.WARNING: return "WARNING";
+                    case (int)MessageTypeEnum.INFO: return "INFO";
+                    case (int)MessageTypeEnum.FAIL: return "ERROR";
+                    case (int)MessageTypeEnum.WARNING: return "WARNING";
                     default: return "DISPLAY ERROR";
                 }
-            }
-            set
-            {
-                //do nothing, this isn't supposed to be set.
             }
         }
         public string Message { get; set; }

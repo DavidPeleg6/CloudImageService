@@ -23,7 +23,6 @@ namespace ImageService.Controller.Handlers
         /// </summary>
         /// <param name="dirPath">path to given directory</param>
         /// <returns>false if an error occured, true otherwise</returns>
-        event EventHandler<CommandDoneEventArgs> CommandDone;
         bool StartHandleDirectory(string dirPath);                               // The Function Recieves the directory to Handle
         /// <summary>
         /// method to be activated when command enters
@@ -31,5 +30,6 @@ namespace ImageService.Controller.Handlers
         /// <param name="sender">the sender object</param>
         /// <param name="e"> args for the command</param>
         void OnCommandRecieved(object sender, ClientCommandEventArgs e);     // The Event that will be activated upon new Command
+        event EventHandler<CommandDoneEventArgs> CommandDone;
     }
 }

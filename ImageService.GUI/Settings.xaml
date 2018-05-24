@@ -15,11 +15,11 @@
         <Label x:Name="label" Content="Output Directory:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <Label x:Name="label_Copy" Content="Source Name:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <Label x:Name="label_Copy1" Content="Log Name:" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label x:Name="OutputDirLabel" Content="Label" HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" Height="26" Width="38" RenderTransformOrigin="3.706,0.99" Grid.Column="1"/>
-        <Label x:Name="SourceNameLabel" Content="Label" HorizontalAlignment="Left" Margin="86,36,0,0" VerticalAlignment="Top" Height="26" Width="38" Grid.Column="1"/>
-        <Label x:Name="LogNameLabel" Content="Label" HorizontalAlignment="Left" Margin="86,62,0,0" VerticalAlignment="Top" Height="26" Width="38" Grid.Column="1"/>
+        <Label x:Name="OutputDirLabel" Content="Loading data" HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" Height="26" Width="458" RenderTransformOrigin="3.706,0.99" Grid.Column="1"/>
+        <Label x:Name="SourceNameLabel" Content="Loading data" HorizontalAlignment="Left" Margin="86,36,0,0" VerticalAlignment="Top" Height="26" Width="458" Grid.Column="1"/>
+        <Label x:Name="LogNameLabel" Content="Loading data" HorizontalAlignment="Left" Margin="86,62,0,0" VerticalAlignment="Top" Height="26" Width="458" Grid.Column="1"/>
         <Label x:Name="label_Copy2" Content="Thumbnail Size:" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label x:Name="ThumbnailLabel" Content="Label" HorizontalAlignment="Left" Margin="86,88,0,0" VerticalAlignment="Top" Height="26" Width="38" Grid.Column="1"/>
+        <Label x:Name="ThumbnailLabel" Content="Loading data" HorizontalAlignment="Left" Margin="86,88,0,0" VerticalAlignment="Top" Height="26" Width="458" Grid.Column="1"/>
         <Button x:Name="RemoveButton" Content="Remove" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="586" Click="RemoveButton_Click" Grid.ColumnSpan="2" IsEnabled="False"/>
         <ListBox x:Name="HandelerList" HorizontalAlignment="Left" Height="184" Margin="10,136,0,0" VerticalAlignment="Top" Width="586" Grid.ColumnSpan="2" SelectionChanged="HandelerList_SelectionChanged"/>
     </Grid>

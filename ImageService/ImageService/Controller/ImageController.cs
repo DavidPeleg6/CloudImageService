@@ -28,12 +28,16 @@ namespace ImageService.Controller
             NewFileCommand file = new NewFileCommand(m_modal);
             LogCommand logger = new LogCommand();
             CloseCommand close = new CloseCommand();
-            close.inform_close += logger.OnLogChange;
-            file.inform_new_file += logger.OnLogChange;
+            GetConfigCommand conf = new GetConfigCommand();
+            //TODO might fuck us
+            close.InformClose += conf.HandlerRemoved;
+            //close.inform_close += logger.OnLogChange;
+            //
+            file.InformNewFile += logger.OnLogChange;
             commands.Add((int)CommandEnum.NewFileCommand, file);
             commands.Add((int)CommandEnum.LogCommand, logger);
             commands.Add((int)CommandEnum.CloseCommand, close);
-            commands.Add((int)CommandEnum.GetConfigCommand, new GetConfigCommand());
+            commands.Add((int)CommandEnum.GetConfigCommand, conf);
             
         }
         /// <summary>

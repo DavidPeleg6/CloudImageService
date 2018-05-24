@@ -18,6 +18,6 @@ namespace ImageService.Commands
         /// <param name="args">The commands arguements.</param>
         /// <param name="result">True if the command was executed succsusfully, false otherwise.</param>
         /// <returns>The commands output.</returns>
-        string Execute(string[] args, out bool result);          // The Function That will Execute The 
+        string Execute(string[] args, out bool result);          // The Function That will Execute The command
     }
 }

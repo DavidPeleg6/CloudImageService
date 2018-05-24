@@ -14,16 +14,16 @@ namespace ImageService.Commands
     /// </summary>
     public class NewFileCommand : ICommand
     {
-        public EventHandler<LogChangedEventArgs> inform_new_file;
+        public EventHandler<LogChangedEventArgs> InformNewFile;
 
-        private IImageServiceModal m_modal;
+        private IImageServiceModal MyModal;
         /// <summary>
         /// Makes a new newfile command.
         /// </summary>
         /// <param name="modal">The image service modal that will actually add the file.</param>
         public NewFileCommand(IImageServiceModal modal)
         {
-            m_modal = modal;            // Storing the Modal
+            MyModal = modal;            // Storing the Modal
         }
         /// <summary>
         /// Makes a new file in location args[0].
@@ -34,7 +34,7 @@ namespace ImageService.Commands
         public string Execute(string[] args, out bool result)
         {
             // The String Will Return the New Path if result = true, and will return the error message
-            return m_modal.AddFile(args[0], out result);
+            return MyModal.AddFile(args[0], out result);
         }
     }
 }

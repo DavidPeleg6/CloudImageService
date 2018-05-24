@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ImageService.Infrastructure.Event
 {
     /// <summary>
-    /// The event arguements used by directory closing events
+    /// The event arguements used by directory closing events.
     /// </summary>
     public class DirectoryCloseEventArgs : EventArgs
     {

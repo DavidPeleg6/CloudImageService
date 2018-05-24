@@ -123,8 +123,7 @@ namespace ImageService
             // Update the service state to Running.  
             ServiceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref ServiceStatus);
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings["IP"]),
-                int.Parse(ConfigurationManager.AppSettings["port"]));
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             ComServer.ServerStart(ep);
             eventLog1.WriteEntry("Started ImageService.");
         }

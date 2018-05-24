@@ -27,53 +27,77 @@ namespace ImageService.Infrastructure.Event
             Args = args;
             RequestDirPath = path;
         }
-
+        /// <summary>
+        /// Formatted the eventargs to JSON.
+        /// </summary>
+        /// <param name="args">The args to be formatted.</param>
+        /// <returns>JSON formatted event args, ready to be sent.</returns>
         public static string CommandRecievedToJSON(CommandRecievedEventArgs args)
         {
-            JObject command_obj = new JObject();
-            command_obj["Commmand ID:"] = args.CommandID;
-            command_obj["args amount:"] = args.Args.Length;
-            for (int i = 0; i < args.Args.Length; i++)
+            JObject JSONCommandObject = new JObject();
+            JSONCommandObject["Commmand ID:"] = args.CommandID;
+            if (args.Args != null)
             {
-                command_obj["args " + i + ":"] = args.Args[i];
+                JSONCommandObject["args amount:"] = args.Args.Length;
+                for (int i = 0; i < args.Args.Length; i++)
+                {
+                    JSONCommandObject["args " + i + ":"] = args.Args[i];
+                }
+            }
+            else
+            {
+                JSONCommandObject["args amount:"] = 0;
             }
             if (args.RequestDirPath != null)
-                command_obj["Path:"] = args.RequestDirPath;
+                JSONCommandObject["Path:"] = args.RequestDirPath;
             else
-                command_obj["Path:"] = "null";
-            return command_obj.ToString();
+                JSONCommandObject["Path:"] = null;//TODO: maybe make null a string
+            return JSONCommandObject.ToString();
         }
-
+        /// <summary>
+        /// UnJSON formatted some commandrecieved eventargs.
+        /// </summary>
+        /// <param name="message">The eventargs to be converted back.</param>
+        /// <returns>Eventargs in an eventarg format.</returns>
         public static CommandRecievedEventArgs CommandRecievedFromJSON(string message)
         {
-            JObject com_recived = JObject.Parse(message);
-            int id = (int)com_recived["Commmand ID:"];
-            string dir_path = (string)com_recived["Path:"];
-            int command_amount = (int)com_recived["args amount: "];
-            string[] args = new string[command_amount];
-            for(int i = 0; i < command_amount; i++)
+            JObject JSONCommandRecievedArgs = JObject.Parse(message);
+            int ID = (int)JSONCommandRecievedArgs["Commmand ID:"];
+            int CommandAmmount = (int)JSONCommandRecievedArgs["args amount:"];
+            string DirectoryPath = (string)JSONCommandRecievedArgs["Path:"];
+            string[] Args = new string[CommandAmmount];
+            for(int i = 0; i < CommandAmmount; i++)
             {
-                args[i] = (string)com_recived["args " + i + ":"];
+                Args[i] = (string)JSONCommandRecievedArgs["args " + i + ":"];
             }
-            return new CommandRecievedEventArgs(id, args, dir_path);
+            return new CommandRecievedEventArgs(ID, Args, DirectoryPath);
         }
-
-        public static string ConfigToJSON(string output_dir, string source_name, string log_name, string thumb_size
+        /// <summary>
+        /// Takes config data and converts it to a JSON format.
+        /// </summary>
+        /// <param name="outputDir">Output directory, taken from app.config.</param>
+        /// <param name="sourceName">Source Name, taken from app.config.</param>
+        /// <param name="logName">Log Name, taken from app.config.</param>
+        /// <param name="thumbSize">Thumbnail size, taken from app.config.</param>
+        /// <param name="Handlers">Handeler list, taken from the get config command.</param>
+        /// <returns>JSON formatted config data.</returns>
+        public static string ConfigToJSON(string outputDir, string sourceName, string logName, string thumbSize
             , String[] Handlers)
         {
-            JObject config = new JObject();
-            config["OutputDir"] = output_dir;
-            config["SourceName"] = source_name;
-            config["LogName"] = log_name;
-            config["ThumbnailSize"] = thumb_size;
+            JObject JSONConfigObject = new JObject();
+            JSONConfigObject["type"] = "config";
+            JSONConfigObject["OutputDir"] = outputDir;
+            JSONConfigObject["SourceName"] = sourceName;
+            JSONConfigObject["LogName"] = logName;
+            JSONConfigObject["ThumbnailSize"] = thumbSize;
             String[] Handelers = Handlers;
             int handler_amount = Handelers.Length;
-            config["handler amount: "] = handler_amount;
+            JSONConfigObject["handler amount: "] = handler_amount;
             for (int i = 0; i < handler_amount; i++)
             {
-                config["handler" + i + ": "] = Handelers[i];
+                JSONConfigObject["handler" + i + ": "] = Handelers[i];
             }
-            return config.ToString();
+            return JSONConfigObject.ToString();
         }
     }
 }

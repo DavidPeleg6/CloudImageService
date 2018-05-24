@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageService.GUI"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="ImageService - Avihai Didi and Dudu Geda" Height="400" Width="635">
     <Grid>
-        <TabControl x:Name="tabControl1" HorizontalAlignment="Left" Height="370" VerticalAlignment="Top" Width="627"/>
+        <TabControl x:Name="TabControl" HorizontalAlignment="Left" Height="370" VerticalAlignment="Top" Width="627"/>
     </Grid>
 </Window>

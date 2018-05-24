@@ -1,4 +1,6 @@
-﻿using ImageService.Infrastructure.Event;
+﻿using ImageService.Infastructure;
+using ImageService.Infrastructure.Event;
+using ImageService.Logging.Modal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,38 +9,45 @@ using System.Threading.Tasks;
 
 namespace ImageService.Commands
 {
+    /// <summary>
+    /// Command that requests the log information from the service.
+    /// </summary>
     class LogCommand : ICommand
     {
-        private Dictionary<int, string> log;
+        private List<ISPair> Log;
        // private bool if_changed;
-
+       /// <summary>
+       /// Constructor, doesn't really do anything, just prepars an object to store the log.
+       /// </summary>
         public LogCommand()
         {
-            log = new Dictionary<int, string>();
-            //if_changed = false;
+            Log = new List<ISPair>();
         }
-
+        /// <summary>
+        /// Executes the command, requesting all of the logdata from the service and returning it to the caller.
+        /// </summary>
+        /// <param name="args">args[1] is the message and args[0] is type</param>
+        /// <param name="result">Speficies if the command executed corretly.</param>
+        /// <returns>Eventargs containing the log infromation.</returns>
         string ICommand.Execute(string[] args, out bool result)
         {
-            //if message was added to logger and it is not just being asked for, args[1] will be the message and args[0] is type
-            if(args != null)
+            if(args != null && args.Length > 0)
             {
-                result = /*if_changed =*/ true;
-                log.Add(int.Parse(args[0]), args[1]);
-                return null;
+                result = true;
+                Log.Add(new ISPair((MessageTypeEnum)int.Parse(args[0]), args[1]));
+                return "";
             }
-            //result = if_changed;
-            //if_changed = false;
-            //if(result)
             result = true;
-            return LogChangedEventArgs.CompleteLogToJSON(log);
-            //return null;
+            return LogChangedEventArgs.CompleteLogToJSON(Log);
         }
-
+        /// <summary>
+        /// Function that is called when the log data has changed and the clients using the data (such as the gui) need to be updated.
+        /// </summary>
+        /// <param name="sender">The service.</param>
+        /// <param name="args">args containing information about the changed log data.</param>
         public void OnLogChange(object sender, LogChangedEventArgs args)
         {
-            //if_changed = true;
-            log.Add((int)args.Type, args.Message);
+            Log.Add(new ISPair((MessageTypeEnum)args.Type, args.Message));
         }
     }
 }

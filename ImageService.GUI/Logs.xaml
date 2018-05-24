@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Logs" Height="360" Width="620">
     <Grid>
-        <DataGrid x:Name="LogList" HorizontalAlignment="Left" Height="330" VerticalAlignment="Top" Width="612" FontSize="12" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True">
+        <DataGrid x:Name="LogList" HorizontalAlignment="Left" Height="330" VerticalAlignment="Top" Width="582" FontSize="12" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Type" Binding="{Binding Path=Type}" Width="70">
                     <DataGridTextColumn.CellStyle>
@@ -45,9 +45,10 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Message" Binding="{Binding Path=Message}" Width="534"/>
+                <DataGridTextColumn Header="Message" Binding="{Binding Path=Message}" Width="514"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Name="RefreshButton" Content="F5" HorizontalAlignment="Left" Margin="582,0,0,0" VerticalAlignment="Top" Width="30" Height="24" Click="RefreshButton_Click"/>
     </Grid>
 
 </Window>

@@ -50,41 +50,30 @@ namespace ImageService.Server
             if (Handler.StartHandleDirectory(path))
             {
                 CommandRecieved += Handler.OnCommandRecieved;
-                Handler.LogChanged += com_server.ClHandler.OnLogChange;
+                //Handler.LogChanged += com_server.ClHandler.OnLogChange; //TODO: ... something
                 Handler.CommandDone += com_server.ClHandler.CommandDone;
             }
         }
-
+        /// <summary>
+        /// A function that is called when a directory is closed and shoudln't be listened to anymore.
+        /// </summary>
+        /// <param name="sender">The DirectoyHandler, is made to stop listening.</param>
+        /// <param name="args">not used by this function</param>
         public void DirectoryClosed(object sender, DirectoryCloseEventArgs args)
         {
             CommandRecieved -= (sender as DirectoyHandler).OnCommandRecieved;
             (sender as DirectoyHandler).CommandDone -= com_server.ClHandler.CommandDone;
-            (sender as DirectoyHandler).LogChanged -= com_server.ClHandler.OnLogChange;
+            //(sender as DirectoyHandler).LogChanged -= com_server.ClHandler.OnLogChange; //TODO: ... something
         }
-
+        /// <summary>
+        /// Passes a command to the client.
+        /// </summary>
+        /// <param name="sender">This server.</param>
+        /// <param name="args">The commandargs to be passed to the client.</param>
         public void ClientCommand(object sender, ClientCommandEventArgs args)
         {
             CommandRecieved(this, args);
         }
-/*
-        public void LogChanged(object sender, LogChangedEventArgs args)
-        {
-            if(args != null)
-                return;
-
-        }
-
-        public void SmallLogChange(object sender, LogChangedEventArgs args)
-        {
-            if (args == null)
-                return;
-            //m_logging.Log(args.Message, args.Type);
-            string[] log = new string[2];
-            log[0] = ((int)args.Type).ToString();
-            log[1] = args.Message;
-            m_controller.ExecuteCommand((int)CommandEnum.LogCommand, log, out bool result);
-        }
-        */
         /// <summary>
         /// Closes the server.
         /// </summary>

@@ -24,15 +24,15 @@ namespace ImageService.Modal
         /// </summary>
         /// <param name="path">The Path of the Image from the file</param>
         /// <returns>Indication if the Addition Was Successful</returns>
-        public string AddFile(string path, out bool result)
+        public string AddFile(string path, out bool Result)
         {
-            result = false;
+            Result = false;
             //first check if file exists
             try
             {
                 if (!System.IO.File.Exists(path))
                 {
-                    result = false;
+                    Result = false;
                     return "AddFile error: File does not exist.";
                 }
                 // top-level folder name.
@@ -100,7 +100,7 @@ namespace ImageService.Modal
                 MyThumbnail.Dispose();
                 Stream.Flush();
                 Stream.Close();
-                result = true;
+                Result = true;
                 return System.IO.Path.Combine(OutputPath, FileName); ;
             }
             catch (Exception e)

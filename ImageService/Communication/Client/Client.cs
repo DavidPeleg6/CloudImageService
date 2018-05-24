@@ -13,82 +13,131 @@ using Newtonsoft.Json;
 
 namespace Communication.Client
 {
-    class Client
+    /// <summary>
+    /// A client that the GUI uses to communicate with the server in order to request data from it.
+    /// Is a singleton in order to make sure all of the GUIs diffrent componments use the same client to communicate with the server.
+    /// </summary>
+    public class Client
     {
-        private bool client_alive;
-        private bool message_pending;
-        private bool wait_result;
-        private string message;
+        private static Client Instance;
+        private bool ClientAlive;
+        private bool MessagePending;
+        private bool WaitResult;
+        private string Message;
         public event EventHandler<CommandDoneEventArgs> CommandDone; 
-
-        public Client()
+        /// <summary>
+        /// Constructor, sets all of the clients values to false and makes the messege empty.
+        /// Those values will be filled by data requests.
+        /// </summary>
+        private Client()
         {
-            client_alive = false;
-            message_pending = false;
-            wait_result = true;
-            message = "";
+            ClientAlive = false;
+            MessagePending = false;
+            WaitResult = false;
+            Message = "";
         }
-
+        /// <summary>
+        /// Gets an instance of the client, functions in place of a constructor.
+        /// </summary>
+        /// <returns>An instance of the client.</returns>
+        public static Client GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new Client();
+            }
+            return Instance;
+        }
+        /// <summary>
+        /// Conneects to the server (localhost for the time being).
+        /// And waits for one of the classes using the client to request some data from the server.
+        /// Once someone makes a request (by activating CommandRecieved) it sends that request to the server
+        /// and then reads the result sent back into CommandDoneEventArgs
+        /// which the requester get CommandDone.
+        /// </summary>
         public void ClientStart()
         {
-            Communication.Server server = Communication.Server.GetServer();
-            string IP = server.GetLocalIPAddress();
-            int port = server.Port;
+            //TODO get path and port from client caller
+            //Communication.Server server = Communication.Server.GetServer();
+            //string IP = server.GetLocalIPAddress();
+            //int port = server.Port;
+            string IP = "127.0.0.1";
+            int Port = 8000;
             if (IP == null)
                 return;
-            client_alive = true;
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IP), port);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IP), Port);
             TcpClient client = new TcpClient();
-            client.Connect(ep);
-            Console.WriteLine("You are connected");
             try
+            {
+                client.Connect(ep);
+            }
+            catch
+            {
+                return;
+            }
+            ClientAlive = true;
+            Task t = new Task(() =>
             {
                 using (NetworkStream stream = client.GetStream())
                 using (BinaryReader reader = new BinaryReader(stream))
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    Task t = new Task(() =>
+                    while (ClientAlive)
                     {
-                        while(client_alive)
+                        if (MessagePending)
                         {
-                            if (message_pending)
-                            {
-                                // Send data to server
-                                Console.Write("sending Command ");
-                                writer.Write(message);
-                                message_pending = false;
-                            }
-                            if (wait_result)
-                            {
-                                // Get result from server
-                                string result = reader.ReadString();
-                                if (String.Equals(result, "close"))
-                                {
-                                    client_alive = false;
-                                    break;
-                                }
-                                CommandDone(this, new CommandDoneEventArgs(null, result));
-                            }
+                            // Send data to server
+                            writer.Write(Message);
+                            MessagePending = false;
+                            WaitResult = true;
                         }
-                    });
-                    t.Start();
+                        if (WaitResult)
+                        {
+                            // Get result from server
+                            string result = reader.ReadString();
+                            WaitResult = false;
+                            if (result == "close")
+                            {
+                                ClientAlive = false;
+                                client.Close();
+                                break;
+                            }
+                            CommandDone(this, new CommandDoneEventArgs(null, result));
+                        }
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("{0}", e.Data);
-            }
-            client.Close();
+            }); 
+            t.Start();
         }
-
+        /// <summary>
+        /// Requests data from the server.
+        /// Clarification regarding the title, it refers to the fact the command is being recieved by the server from the client.
+        /// </summary>
+        /// <param name="sender">The object requesting the data (should usually just by "this").</param>
+        /// <param name="args">The request being sent.</param>
         public void CommandRecieved(object sender, CommandRecievedEventArgs args)
         {
-            if(args.Args != null && String.Equals(args.Args[0], "close"))
-                client_alive = false;
-            message_pending = true;
-            message = CommandRecievedEventArgs.CommandRecievedToJSON(args);
+            if (args.Args != null && String.Equals(args.Args[0], "close"))
+            {
+                ClientAlive = false;
+            }
+            Message = CommandRecievedEventArgs.CommandRecievedToJSON(args);
+            MessagePending = true;
         }
-
+        /// <summary>
+        /// Gets the status of the client, i.e if it's connected to the server.
+        /// This is used by classes using the client to check if they can request data from the server.
+        /// </summary>
+        /// <returns>The status of the client.</returns>
+        public bool GetStatus()
+        {
+            return ClientAlive;
+        }
+        /// <summary>
+        /// Constructs a dictionary of log objects using JSON formatted data sent from the server.
+        /// </summary>
+        /// <param name="log">JSON formatted data sent by the server.</param>
+        /// <returns>A dictionary of logs to be printed on the Logs screen.</returns>
         public Dictionary<int, string> LogFromJSON(string log)
         {
             Dictionary<int, string> dict = JsonConvert.DeserializeObject<Dictionary<int, string>>(log);
