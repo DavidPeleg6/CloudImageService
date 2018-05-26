@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="ImageService.GUI.SettingsTabView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageService.GUI"
+        mc:Ignorable="d"
+        Height="360" Width="620">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="369*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="label" Content="Output Directory:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label x:Name="label_Copy" Content="Source Name:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label x:Name="label_Copy1" Content="Log Name:" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label x:Name="OutputDirLabel" Content="{Binding Path=OutputDirectory}" HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" Height="26" Width="458" RenderTransformOrigin="3.706,0.99" Grid.Column="1"/>
+        <Label x:Name="SourceNameLabel" Content="{Binding Path=SourceName}" HorizontalAlignment="Left" Margin="86,36,0,0" VerticalAlignment="Top" Height="26" Width="458" Grid.Column="1"/>
+        <Label x:Name="LogNameLabel" Content="{Binding Path=LogName}" HorizontalAlignment="Left" Margin="86,62,0,0" VerticalAlignment="Top" Height="26" Width="458" Grid.Column="1"/>
+        <Label x:Name="label_Copy2" Content="Thumbnail Size:" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Height="26" Width="110" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label x:Name="ThumbnailLabel" Content="{Binding Path=ThumbnailSize}" HorizontalAlignment="Left" Margin="86,88,0,0" VerticalAlignment="Top" Height="26" Width="458" Grid.Column="1"/>
+        <Button x:Name="RemoveButton" Command="{Binding RemoveButtonCommand}" IsEnabled="{Binding Path=IsButtonEnabled}" Content="Remove" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="586" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="HandelerList" SelectedItem="{Binding Path=SelectedItem}" HorizontalAlignment="Left" Height="184" Margin="10,136,0,0" VerticalAlignment="Top" Width="586" Grid.ColumnSpan="2" ItemsSource="{Binding Path=HandelerList}"/>
+    </Grid>
+
+</UserControl>

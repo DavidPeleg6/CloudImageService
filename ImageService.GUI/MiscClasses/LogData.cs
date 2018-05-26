@@ -28,6 +28,9 @@ namespace ImageService.GUI
                 type_num = -1;
             this.Message = message;
         }
+        /// <summary>
+        /// The type of log as a string, for GUI display purposes.
+        /// </summary>
         public string Type {
 
             get

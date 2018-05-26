@@ -29,27 +29,22 @@ namespace ImageService.GUI
         /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
-            Client LocalClient = Client.GetInstance();
+            Client LocalClient = Client.GetInstance;
             LocalClient.ClientStart();
             if (!LocalClient.GetStatus())
             {
                 Background = Brushes.Gray;
             }
-            TabItem TabItem1 = new TabItem();
-            TabItem TabItem2 = new TabItem();
-            Settings SettingsWindow = new Settings();
-            Logs LogsWindow = new Logs();
-            TabItem1.Content = SettingsWindow.Content;
-            TabItem1.Header = "Settings";
-            TabItem1.Height = 25;
-            TabItem1.Width = 100;
-            TabItem2.Content = LogsWindow.Content;
-            TabItem2.Header = "Logs";
-            TabItem2.Height = 25;
-            TabItem2.Width = 100;
-            TabControl.Items.Add(TabItem1);
-            TabControl.Items.Add(TabItem2);
+            InitializeComponent();
+        }
+        /// <summary>
+        /// This function is here to shut the process down when the window is closed.
+        /// </summary>
+        /// <param name="e">Not sure what this is, I copied this function from stackoverflow.</param>
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Application.Current.Shutdown();
         }
     }
 }

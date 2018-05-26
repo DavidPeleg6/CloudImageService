@@ -58,10 +58,6 @@ namespace ImageService.Commands
             string src_name = ConfigurationManager.AppSettings["SourceName"];
             string log_name = ConfigurationManager.AppSettings["LogName"];
             string thumb_size = ConfigurationManager.AppSettings["ThumbnailSize"];
-            if(ActiveHandelers.Length == 0)
-            {
-                //TODO: may cause JSON exception
-            }
             result = true;
             return CommandRecievedEventArgs.ConfigToJSON(out_dir, src_name, log_name, thumb_size, ActiveHandelers);
         }

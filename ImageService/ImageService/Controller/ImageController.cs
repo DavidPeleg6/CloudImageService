@@ -15,30 +15,28 @@ namespace ImageService.Controller
     /// </summary>
     public class ImageController : IImageController
     {
-        private IImageServiceModal m_modal;                      // The Modal Object
-        private Dictionary<int, ICommand> commands;
+        private IImageServiceModal MyModal;                      // The Modal Object
+        private Dictionary<int, ICommand> CommandDictionary;
         /// <summary>
         /// Contructs a new image controller object.
         /// </summary>
         /// <param name="modal">The image service modal the controller will controll.</param>
         public ImageController(IImageServiceModal modal)
         {
-            m_modal = modal;                    // Storing the Modal Of The System
-            commands = new Dictionary<int, ICommand>();
-            NewFileCommand file = new NewFileCommand(m_modal);
+            MyModal = modal;                    // Storing the Modal Of The System
+            CommandDictionary = new Dictionary<int, ICommand>();
+            NewFileCommand file = new NewFileCommand(MyModal);
             LogCommand logger = new LogCommand();
             CloseCommand close = new CloseCommand();
             GetConfigCommand conf = new GetConfigCommand();
-            //TODO might fuck us
             close.InformClose += conf.HandlerRemoved;
-            //close.inform_close += logger.OnLogChange;
-            //
+            //close.inform_close += logger.OnLogChange; //TODO: check this
             file.InformNewFile += logger.OnLogChange;
-            commands.Add((int)CommandEnum.NewFileCommand, file);
-            commands.Add((int)CommandEnum.LogCommand, logger);
-            commands.Add((int)CommandEnum.CloseCommand, close);
-            commands.Add((int)CommandEnum.GetConfigCommand, conf);
-            
+            CommandDictionary.Add((int)CommandEnum.NewFileCommand, file);
+            CommandDictionary.Add((int)CommandEnum.LogCommand, logger);
+            CommandDictionary.Add((int)CommandEnum.CloseCommand, close);
+            CommandDictionary.Add((int)CommandEnum.GetConfigCommand, conf);
+
         }
         /// <summary>
         /// Executes a command specified by the commandID using internal logic.
@@ -50,7 +48,7 @@ namespace ImageService.Controller
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
             ICommand Command;
-            if (!commands.TryGetValue(commandID, out Command))
+            if (!CommandDictionary.TryGetValue(commandID, out Command))
             {
                 //cound't find the command in the dictionary
                 resultSuccesful = false;

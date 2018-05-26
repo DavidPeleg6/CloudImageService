@@ -72,7 +72,7 @@ namespace Communication
                         }
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     //TODO: maybe delete this try-catch
                 }

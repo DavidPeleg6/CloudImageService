@@ -85,7 +85,6 @@ namespace ImageService.Modal
                 {
                     System.IO.Directory.CreateDirectory(TargetFile);
                     DirectoryInfo di = new DirectoryInfo(TargetFile);
-                    //TODO check if this works== possible bug in code
                     //See if directory has hidden flag, if not, make hidden
                     if ((di.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden)
                     {
@@ -95,7 +94,6 @@ namespace ImageService.Modal
                 }
                 TargetFile = System.IO.Path.Combine(TargetFile, FileName);
                 System.IO.File.Copy(path, TargetFile);
-                //return "test1"; //todo remove this
                 MyBitmap.Dispose();
                 MyThumbnail.Dispose();
                 Stream.Flush();

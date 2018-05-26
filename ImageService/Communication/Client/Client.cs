@@ -19,7 +19,7 @@ namespace Communication.Client
     /// </summary>
     public class Client
     {
-        private static Client Instance;
+        private static Client _instance;
         private bool ClientAlive;
         private bool MessagePending;
         private bool WaitResult;
@@ -40,13 +40,9 @@ namespace Communication.Client
         /// Gets an instance of the client, functions in place of a constructor.
         /// </summary>
         /// <returns>An instance of the client.</returns>
-        public static Client GetInstance()
+        public static Client GetInstance
         {
-            if (Instance == null)
-            {
-                Instance = new Client();
-            }
-            return Instance;
+            get { return _instance ?? (_instance = new Client()); }
         }
         /// <summary>
         /// Conneects to the server (localhost for the time being).

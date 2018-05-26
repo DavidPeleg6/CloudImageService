@@ -14,14 +14,13 @@ namespace ImageService.Commands
     /// </summary>
     class LogCommand : ICommand
     {
-        private List<ISPair> Log;
-       // private bool if_changed;
+        private List<ISPair> LogsList;
        /// <summary>
        /// Constructor, doesn't really do anything, just prepars an object to store the log.
        /// </summary>
         public LogCommand()
         {
-            Log = new List<ISPair>();
+            LogsList = new List<ISPair>();
         }
         /// <summary>
         /// Executes the command, requesting all of the logdata from the service and returning it to the caller.
@@ -31,14 +30,14 @@ namespace ImageService.Commands
         /// <returns>Eventargs containing the log infromation.</returns>
         string ICommand.Execute(string[] args, out bool result)
         {
-            if(args != null && args.Length > 0)
+            if (args != null && args.Length > 0)
             {
                 result = true;
-                Log.Add(new ISPair((MessageTypeEnum)int.Parse(args[0]), args[1]));
+                LogsList.Add(new ISPair((MessageTypeEnum)int.Parse(args[0]), args[1]));
                 return "";
             }
             result = true;
-            return LogChangedEventArgs.CompleteLogToJSON(Log);
+            return LogChangedEventArgs.CompleteLogToJSON(LogsList);
         }
         /// <summary>
         /// Function that is called when the log data has changed and the clients using the data (such as the gui) need to be updated.
@@ -47,7 +46,7 @@ namespace ImageService.Commands
         /// <param name="args">args containing information about the changed log data.</param>
         public void OnLogChange(object sender, LogChangedEventArgs args)
         {
-            Log.Add(new ISPair((MessageTypeEnum)args.Type, args.Message));
+            LogsList.Add(new ISPair((MessageTypeEnum)args.Type, args.Message));
         }
     }
 }

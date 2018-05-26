@@ -109,14 +109,15 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, ClientCommandEventArgs e)
         {
             //check which command was given and execute in a new Task
-            Task CommandHandleTask = new Task(() =>
+            Task t = new Task(() =>
             {
                 bool result;
                 string output;
                 try
                 {
                     output = MyController.ExecuteCommand(e.Args.CommandID, e.Args.Args, out result);
-                } catch (Exception eee)
+                }
+                catch
                 {
                     output = "";
                 }
@@ -124,6 +125,9 @@ namespace ImageService.Controller.Handlers
                 {
                     if (e.Args.RequestDirPath == MyPath || String.Equals("*", e.Args.RequestDirPath))
                     {
+                        //CommandDone?.Invoke(this, new CommandDoneEventArgs(e.Client, output));
+                        // return;
+
                         for (int i = 0; i < MyDirectoryWWatcher.Length; i++)
                         {
                             MyDirectoryWWatcher[i].EnableRaisingEvents = false;
@@ -138,7 +142,7 @@ namespace ImageService.Controller.Handlers
                 }
                 CommandDone?.Invoke(this, new CommandDoneEventArgs(e.Client, output));
             });
-            CommandHandleTask.Start();
+            t.Start();
         }
         /// <summary>
         /// Updates the log to include a new messege.

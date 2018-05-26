@@ -51,7 +51,7 @@ namespace ImageService.Infrastructure.Event
             if (args.RequestDirPath != null)
                 JSONCommandObject["Path:"] = args.RequestDirPath;
             else
-                JSONCommandObject["Path:"] = null;//TODO: maybe make null a string
+                JSONCommandObject["Path:"] = null;
             return JSONCommandObject.ToString();
         }
         /// <summary>
