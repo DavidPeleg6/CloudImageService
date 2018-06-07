@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Communication.Client;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -28,9 +29,16 @@ namespace WebApplication2.Controllers
             return View();
         }
         #endregion
-        
-        //shit below is stuff from the example itself
 
+        static Client LocalClient = Client.GetInstance;
+
+        public bool IsClientRunning()
+        {
+            return LocalClient.GetStatus();
+        }
+
+        //shit below is stuff from the example itself
+        //TODO: delete it
         /*
         static List<Employee> employees = new List<Employee>()
         {
