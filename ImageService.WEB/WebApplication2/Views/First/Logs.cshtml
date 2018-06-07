@@ -1,7 +1,32 @@
-﻿
+﻿@model IEnumerable<WebApplication2.Models.LogData>
+
 @{
     ViewBag.Title = "Logs";
 }
 
 <h2>Logs</h2>
-Logs page
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+        </tr>
+    }
+
+</table>

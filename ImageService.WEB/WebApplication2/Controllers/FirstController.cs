@@ -26,7 +26,7 @@ namespace WebApplication2.Controllers
         }
         public ActionResult Logs()
         {
-            return View();
+            return View(logs);
         }
         #endregion
 
@@ -39,16 +39,28 @@ namespace WebApplication2.Controllers
 
         //shit below is stuff from the example itself
         //TODO: delete it
-        /*
-        static List<Employee> employees = new List<Employee>()
+        
+        static List<LogData> logs = new List<LogData>()
         {
-          new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
-          new Employee  { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 2000, Phone = "08-8888888" },
-          new Employee   { FirstName = "Mor", LastName = "Sinai", Email = "Stam@stam", Salary = 500, Phone = "08-8888888" },
-          new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 20, Phone = "08-8888888" },
-          new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 700, Phone = "08-8888888" }
+          new LogData  { Type = "qqqqqqqqq", Message="sfaaaaaaa" },
+          new LogData  { Type = "fasasf", Message="sfafas" },
+          new LogData  { Type = "AESaasfFIGH", Message="AAAAdvafasAAAAA" },
+          new LogData  { Type = "afsasfasf", Message="ssssssssssssssssss" },
+          new LogData  { Type = "asfrwr", Message="gaasgggggggggggggggggggg" }
         };
-        [HttpGet]
+        [HttpPost]
+        public JObject GetLog(string name, int salary)
+        {
+            foreach (var log in logs)
+            {
+                JObject data = new JObject();
+                data["Type"] = log.Type;
+                data["Message"] = log.Message;
+                return data;
+            }
+            return null;
+        }
+        /*[HttpGet]
         public JObject GetEmployee()
         {
             JObject data = new JObject();
