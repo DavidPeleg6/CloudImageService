@@ -10,6 +10,28 @@ namespace WebApplication2.Controllers
 {
     public class FirstController : Controller
     {
+        #region MenuLinks
+        public ActionResult MainPage()
+        {
+            return View();
+        }
+        public ActionResult Config()
+        {
+            return View();
+        }
+        public ActionResult Photos()
+        {
+            return View();
+        }
+        public ActionResult Logs()
+        {
+            return View();
+        }
+        #endregion
+        
+        //shit below is stuff from the example itself
+
+        /*
         static List<Employee> employees = new List<Employee>()
         {
           new Employee  { FirstName = "Moshe", LastName = "Aron", Email = "Stam@stam", Salary = 10000, Phone = "08-8888888" },
@@ -18,18 +40,6 @@ namespace WebApplication2.Controllers
           new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 20, Phone = "08-8888888" },
           new Employee   { FirstName = "Dor", LastName = "Nisim", Email = "Stam@stam", Salary = 700, Phone = "08-8888888" }
         };
-        // GET: First
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult AjaxView()
-        {
-            return View();
-        }
-
         [HttpGet]
         public JObject GetEmployee()
         {
@@ -133,5 +143,6 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Error");
         }
+        */
     }
 }
