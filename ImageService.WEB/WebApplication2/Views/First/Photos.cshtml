@@ -3,6 +3,28 @@
     ViewBag.Title = "Photos";
 }
 
+@{ 
+    string[] photos = { @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg"
+    ,@"C:\shitfolder\shit.jpg",@"C:\shitfolder\shit.jpg"};
+}
+
 <h2>Photos</h2>
 This is the page where the photos will be displayed.<br />
-Dudu dodo this.
+Dudu dodo this.<br />
+
+               <div class="row">
+                   @foreach (var photo in photos)
+                   {
+                       <div class="col-sm-1 col-md-2">
+                           <div class="thumbnail">
+                               <img src=@photo class="img-circle" alt="image not found" />
+                               <h3>@photo</h3>
+                               <p>mister turd</p>
+                               <p>
+                                   <a href="#" class="btn btn-info" role="button">View</a>
+                                   <a href="#" class="btn btn-danger" role="button">Delete</a>
+                               </p>
+                           </div>
+                       </div>
+                   }
+                   </div>
