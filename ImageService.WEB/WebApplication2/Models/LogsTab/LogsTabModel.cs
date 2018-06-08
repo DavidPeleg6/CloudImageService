@@ -92,7 +92,7 @@ namespace ImageService.WEB.Models
             switch (type)
             {
                 case MessageTypeEnum.FAIL:
-                    temp = "FAIL";
+                    temp = "ERROR";
                     break;
                 case MessageTypeEnum.INFO:
                     temp = "INFO";
@@ -101,7 +101,7 @@ namespace ImageService.WEB.Models
                     temp = "WARNING";
                     break;
                 default:
-                    temp = "ERROR";
+                    temp = "UNKNOWN SYSTEM ERROR";
                     break;
             }
             ModelLogList.Add(new LogData() { Type = temp, Message = messege });
