@@ -14,6 +14,7 @@ namespace WebApplication2.Controllers
         #region Models and client
         Client LocalClient = Client.GetInstance;
         LogsTabViewModel LogWindowModel = new LogsTabViewModel();
+        ConfigTabViewModel ConfigWindowModel = new ConfigTabViewModel();
         #endregion
 
         #region MenuLinks
@@ -24,7 +25,8 @@ namespace WebApplication2.Controllers
         }
         public ActionResult Config()
         {
-            return View();
+            configData = ConfigWindowModel.HandelerList;
+            return View(configData);//TODO: maybe just put the thingy in here
         }
         public ActionResult Photos()
         {
@@ -32,32 +34,46 @@ namespace WebApplication2.Controllers
         }
         public ActionResult Logs()
         {
-            List<LogData> logs = LogWindowModel.LogList;
-            return View(logs);
+            logs = LogWindowModel.LogList;
+            return View(logs);//TODO: maybe just put the thingy in here
         }
         #endregion
-        
-        //TODO: get this data from the server
-        static List<LogData> logs = new List<LogData>()
+
+        #region Logs
+        static List<LogData> logs = new List<LogData>();
+        #endregion
+
+        #region Config
+        static List<HandelerData> configData = new List<HandelerData>();
+        [HttpGet]
+        public JObject GetOutputDirectory()
         {
-          new LogData  { Type = "qqqqqqqqq", Message="sfaaaaaaa" },
-          new LogData  { Type = "fasasf", Message="sfafas" },
-          new LogData  { Type = "AESaasfFIGH", Message="AAAAdvafasAAAAA" },
-          new LogData  { Type = "afsasfasf", Message="ssssssssssssssssss" },
-          new LogData  { Type = "asfrwr", Message="gaasgggggggggggggggggggg" }
-        };
-        [HttpPost]
-        public JObject GetLog(string name, int salary)
-        {
-            foreach (var log in logs)
-            {
-                JObject data = new JObject();
-                data["Type"] = log.Type;
-                data["Message"] = log.Message;
-                return data;
-            }
-            return null;
+            JObject data = new JObject();
+            data["text"] = ConfigWindowModel.OutputDirectory;
+            return data;
         }
+        [HttpGet]
+        public JObject GetSourceName()
+        {
+            JObject data = new JObject();
+            data["text"] = ConfigWindowModel.SourceName;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetLogName()
+        {
+            JObject data = new JObject();
+            data["text"] = ConfigWindowModel.LogName;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetThumbnailSize()
+        {
+            JObject data = new JObject();
+            data["text"] = ConfigWindowModel.ThumbnailSize;
+            return data;
+        }
+        #endregion
 
         //shit below is stuff from the example itself
         //TODO: delete it
