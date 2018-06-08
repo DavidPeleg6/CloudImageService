@@ -29,6 +29,9 @@ namespace ImageService.Controller
             LogCommand logger = new LogCommand();
             CloseCommand close = new CloseCommand();
             GetConfigCommand conf = new GetConfigCommand();
+            GetStatsCommand stats = new GetStatsCommand();
+            //link new file command with stats command
+            file.InformNewFile += stats.PhotoAdded;
             close.InformClose += conf.HandlerRemoved;
             //close.inform_close += logger.OnLogChange; //TODO: check this
             file.InformNewFile += logger.OnLogChange;
