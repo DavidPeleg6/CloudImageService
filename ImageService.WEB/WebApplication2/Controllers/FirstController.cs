@@ -36,10 +36,8 @@ namespace WebApplication2.Controllers
         {
             return LocalClient.GetStatus();
         }
-
-        //shit below is stuff from the example itself
-        //TODO: delete it
         
+        //TODO: get this data from the server
         static List<LogData> logs = new List<LogData>()
         {
           new LogData  { Type = "qqqqqqqqq", Message="sfaaaaaaa" },
@@ -60,37 +58,11 @@ namespace WebApplication2.Controllers
             }
             return null;
         }
-        /*[HttpGet]
-        public JObject GetEmployee()
-        {
-            JObject data = new JObject();
-            data["FirstName"] = "Kuky";
-            data["LastName"] = "Mopy";
-            return data;
-        }
 
-        [HttpPost]
-        public JObject GetEmployee(string name, int salary)
-        {
-            foreach (var empl in employees)
-            {
-                if (empl.Salary > salary || name.Equals(name))
-                {
-                    JObject data = new JObject();
-                    data["FirstName"] = empl.FirstName;
-                    data["LastName"] = empl.LastName;
-                    data["Salary"] = empl.Salary;
-                    return data;
-                }
-            }
-            return null;
-        }
+        //shit below is stuff from the example itself
+        //TODO: delete it
 
-        // GET: First/Details
-        public ActionResult Details()
-        {
-            return View(employees);
-        }
+        /*
 
         // GET: First/Create
         public ActionResult Create()
