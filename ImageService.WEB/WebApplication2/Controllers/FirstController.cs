@@ -5,15 +5,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Communication.Client;
-using WebApplication2.Models;
+using ImageService.WEB.Models;
 
 namespace WebApplication2.Controllers
 {
     public class FirstController : Controller
     {
+        #region Models and client
+        Client LocalClient = Client.GetInstance;
+        LogsTabViewModel LogWindowModel = new LogsTabViewModel();
+        #endregion
+
         #region MenuLinks
         public ActionResult MainPage()
         {
+            LocalClient.ClientStart();
             return View();
         }
         public ActionResult Config()
@@ -26,16 +32,10 @@ namespace WebApplication2.Controllers
         }
         public ActionResult Logs()
         {
+            List<LogData> logs = LogWindowModel.LogList;
             return View(logs);
         }
         #endregion
-
-        static Client LocalClient = Client.GetInstance;
-
-        public bool IsClientRunning()
-        {
-            return LocalClient.GetStatus();
-        }
         
         //TODO: get this data from the server
         static List<LogData> logs = new List<LogData>()

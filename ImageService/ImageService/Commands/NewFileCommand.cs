@@ -34,8 +34,11 @@ namespace ImageService.Commands
         public string Execute(string[] args, out bool result)
         {
             string answer = MyModal.AddFile(args[0], out result);
-            if(result)
-                InformNewFile(this, null);
+            if (result)
+            {
+                InformNewFile(this, new LogChangedEventArgs("", Logging.Modal.MessageTypeEnum.INFO));
+                //InformNewFile(this, null); //TODO: this change might not work
+            }
             // The String Will Return the New Path if result = true, and will return the error message
             return answer;
         }

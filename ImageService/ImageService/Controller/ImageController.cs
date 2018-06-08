@@ -34,12 +34,12 @@ namespace ImageService.Controller
             file.InformNewFile += stats.PhotoAdded;
             close.InformClose += conf.HandlerRemoved;
             //close.inform_close += logger.OnLogChange; //TODO: check this
-            file.InformNewFile += logger.OnLogChange;
+            //file.InformNewFile += logger.OnLogChange; TODO: maybe uncomment this
             CommandDictionary.Add((int)CommandEnum.NewFileCommand, file);
             CommandDictionary.Add((int)CommandEnum.LogCommand, logger);
             CommandDictionary.Add((int)CommandEnum.CloseCommand, close);
             CommandDictionary.Add((int)CommandEnum.GetConfigCommand, conf);
-
+            CommandDictionary.Add((int)CommandEnum.GetStatsCommand, stats);
         }
         /// <summary>
         /// Executes a command specified by the commandID using internal logic.

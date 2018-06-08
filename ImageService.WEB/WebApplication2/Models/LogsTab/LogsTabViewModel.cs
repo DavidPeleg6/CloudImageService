@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ImageService.GUI
+namespace ImageService.WEB.Models
 {
     /// <summary>
     /// The viewmodel of the Logs tab.
@@ -30,7 +30,7 @@ namespace ImageService.GUI
         /// The list of logs.
         /// Stored in the model.
         /// </summary>
-        public ObservableCollection<LogData> LogList
+        public List<LogData> LogList
         {
             get
             {
@@ -42,27 +42,6 @@ namespace ImageService.GUI
                 OnPropertyChanged("LogList");
             }
         }
-
-        private bool CanExecute;
-        private ICommand _refreshButtonCommand;
-        /// <summary>
-        /// A command that is executed when the refresh button is pressed.
-        /// Executes RefreshButtonAction.
-        /// </summary>
-        public ICommand RefreshButtonCommand
-        {
-            get
-            {
-                return _refreshButtonCommand ?? (_refreshButtonCommand = new CommandHandler(() => RefreshButtonAction(), CanExecute));
-            }
-        }
-        /// <summary>
-        /// Requests the model to refresh its log list.
-        /// </summary>
-        public void RefreshButtonAction()
-        {
-            this.Model.RefreshButtonPress();
-        }
         /// <summary>
         /// Constructor,
         /// Sets the model to be LogsTabModel and sets executability of the refresh command to be true.
@@ -70,7 +49,6 @@ namespace ImageService.GUI
         public LogsTabViewModel()
         {
             this.Model = new LogsTabModel();
-            CanExecute = true;
         }
     }
 }
