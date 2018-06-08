@@ -33,8 +33,11 @@ namespace ImageService.Commands
         /// <returns>The commands output.</returns>
         public string Execute(string[] args, out bool result)
         {
+            string answer = MyModal.AddFile(args[0], out result);
+            if(result)
+                InformNewFile(this, null);
             // The String Will Return the New Path if result = true, and will return the error message
-            return MyModal.AddFile(args[0], out result);
+            return answer;
         }
     }
 }
