@@ -28,6 +28,10 @@ namespace WebApplication2.Controllers
         {
             return View(logs);
         }
+        public ActionResult HandelerCloseConfirm()
+        {
+            return View();
+        }
         #endregion
 
         static Client LocalClient = Client.GetInstance;

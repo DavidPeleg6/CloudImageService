@@ -27,7 +27,7 @@
       <table class="table">
           <tr>
               <th>
-                <form action="~/Views/First/HandelerCloseConfirm.cshtml">
+                <form action="HandelerCloseConfirm">
                     <input type="submit" value="HANDELER 1" />
                 </form>
               </th>
@@ -37,5 +37,8 @@
           </tr>
           <tr>
               <th><a href="~/Views/First/HandelerCloseConfirm.cshtml">HANDELER 3</a></th>
+          </tr>
+          <tr>
+              <th>@Html.ActionLink("HANDELER 4", "HandelerCloseConfirm", "First")</th>
           </tr>
       </table>
