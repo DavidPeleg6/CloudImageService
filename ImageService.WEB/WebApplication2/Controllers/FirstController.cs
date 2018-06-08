@@ -25,8 +25,7 @@ namespace WebApplication2.Controllers
         }
         public ActionResult Config()
         {
-            configData = ConfigWindowModel.HandelerList;
-            return View(configData);//TODO: maybe just put the thingy in here
+            return View(ConfigWindowModel.HandelerList);
         }
         public ActionResult Photos()
         {
@@ -34,17 +33,11 @@ namespace WebApplication2.Controllers
         }
         public ActionResult Logs()
         {
-            logs = LogWindowModel.LogList;
-            return View(logs);//TODO: maybe just put the thingy in here
+            return View(LogWindowModel.LogList);
         }
         #endregion
 
-        #region Logs
-        static List<LogData> logs = new List<LogData>();
-        #endregion
-
         #region Config
-        static List<HandelerData> configData = new List<HandelerData>();
         [HttpGet]
         public JObject GetOutputDirectory()
         {
@@ -75,82 +68,6 @@ namespace WebApplication2.Controllers
         }
         #endregion
 
-        //shit below is stuff from the example itself
-        //TODO: delete it
-
-        /*
-
-        // GET: First/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: First/Create
-        [HttpPost]
-        public ActionResult Create(Employee emp)
-        {
-            try
-            {
-                employees.Add(emp);
-
-                return RedirectToAction("Details");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: First/Edit/5
-        public ActionResult Edit(int id)
-        {
-            foreach (Employee emp in employees) {
-                if (emp.ID.Equals(id)) { 
-                    return View(emp);
-                }
-            }
-            return View("Error");
-        }
-
-        // POST: First/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Employee empT)
-        {
-            try
-            {
-                foreach (Employee emp in employees)
-                {
-                    if (emp.ID.Equals(id))
-                    {
-                        emp.copy(empT);
-                        return RedirectToAction("Index");
-                    }
-                }
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
-        // GET: First/Delete/5
-        public ActionResult Delete(int id)
-        {
-            int i = 0;
-            foreach (Employee emp in employees)
-            {
-                if (emp.ID.Equals(id))
-                {
-                    employees.RemoveAt(i);
-                    return RedirectToAction("Details");
-                }
-                i++;
-            }
-            return RedirectToAction("Error");
-        }
-        */
+   
     }
 }
