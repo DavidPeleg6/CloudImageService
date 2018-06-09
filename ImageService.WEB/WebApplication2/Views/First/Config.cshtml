@@ -23,26 +23,48 @@
     </tr>
 </table>
 <h3>Handelers</h3>
+
+@foreach (var item in Model)
+{
+    //TODO add right text
+    if (item.Text == "connection error")
+    {
+        <div class="row">
+            <div class="col-xs-2 col-sm-4">
+                <p>
+                    <a href="#" class="btn btn-default" role="button">
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </a>
+                </p>
+            </div>
+        </div>
+        break;
+    }
+    <div class="row">
+        <div class="col-xs-2 col-sm-4">
+            <p>
+                <a href="@Url.Action("HandelerCloseConfirm")/@Html.DisplayFor(modelItem => item.Text)" class="btn btn-default" role="button">
+                    @Html.DisplayFor(modelItem => item.Text)
+                </a>
+            </p>
+        </div>
+    </div>
+}
+<!--
 <table>
     @foreach (var item in Model)
     {
         <tr>
             <td>
                 <button id=@Html.DisplayFor(modelItem => item.Text) value=@Html.DisplayFor(modelItem => item.Text)>
-                @Html.DisplayFor(modelItem => item.Text)</button>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </button>
             </td>
         </tr>
     }
 </table>
+    -->
 <script>
-    $(document).ready(function () {
-        $("button").click(function () {
-            var me = $(this);
-            alert(me.val());
-            document.location.href = @Url.Action("HandelerCloseConfirm"), input, function (me.val())
-            me.hide();
-        });
-    });
     $(document).ready(function () {
         $.getJSON("@Url.Action("GetOutputDirectory")", function (outputDir) {
             $("#OutputDirectory").text(outputDir.text);
