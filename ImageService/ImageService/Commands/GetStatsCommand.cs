@@ -41,6 +41,7 @@ namespace ImageService.Commands
         {
             result = true;
             JObject JSONStatObject = new JObject();
+            JSONStatObject["type"] = "stats";
             JSONStatObject["Dict"] = JsonConvert.SerializeObject(stats, Formatting.Indented);
             JSONStatObject["photo_amount"] = photo_amount;
             return JSONStatObject.ToString();
