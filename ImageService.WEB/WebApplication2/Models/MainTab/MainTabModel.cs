@@ -41,7 +41,79 @@ namespace WebApplication2.Models.MainTab
         public MainTabModel()
         {
             LocalClient = Client.GetInstance;
+            //TODO: get the data
         }
+        #region Data
+        int ModelImageCount;
+        string ModelName1;
+        string ModelName2;
+        string ModelID1;
+        string ModelID2;
+        #endregion
+        #region Data getters and setters
+        public int ImageCount
+        {
+            get
+            {
+                return ModelImageCount;
+            }
+            set
+            {
+                ModelImageCount = value;
+                NotifyPropertyChanged("ImageCount");
+            }
+        }
+        public string Name1
+        {
+            get
+            {
+                return ModelName1;
+            }
+            set
+            {
+                ModelName1 = value;
+                NotifyPropertyChanged("Name1");
+            }
+        }
+        public string Name2
+        {
+            get
+            {
+                return ModelName2;
+            }
+            set
+            {
+                ModelName2 = value;
+                NotifyPropertyChanged("Name2");
+            }
+        }
+        public string ID1
+        {
+            get
+            {
+                return ModelID1;
+            }
+            set
+            {
+                ModelID1 = value;
+                NotifyPropertyChanged("ID1");
+            }
+        }
+        public string ID2
+        {
+            get
+            {
+                return ModelID2;
+            }
+            set
+            {
+                ModelID2 = value;
+                NotifyPropertyChanged("ID2");
+            }
+        }
+        #endregion
+
+
         /// <summary>
         /// Function that is called when a command has been completed by the server,
         /// </summary>
