@@ -8,6 +8,7 @@ namespace ImageService.WEB.Models
 {
     /// <summary>
     /// Interface for the main tab model.
+    /// Contains a list of items the model should be able to return.
     /// </summary>
     interface IMainTabModel
     {

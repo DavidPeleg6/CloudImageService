@@ -16,6 +16,11 @@ using System.Threading.Tasks;
 
 namespace ImageService.WEB.Models
 {
+    /// <summary>
+    /// The model for the main window of the website.
+    /// Loads data from the server (via the client)
+    /// and passes it to the view (via the viewmodel).
+    /// </summary>
     public class MainTabModel : IMainTabModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,6 +48,12 @@ namespace ImageService.WEB.Models
         string ModelID2;
         #endregion
         #region Data getters and setters
+        /// <summary>
+        /// A property specifing if the service is running or not.
+        /// Is actually just the status of the client.
+        /// Since if the client is running that means that it managed to connect to the server
+        /// and from that it follows that the server is running, as well as the service that runs it.
+        /// </summary>
         public bool Running
         {
             get
@@ -50,6 +61,9 @@ namespace ImageService.WEB.Models
                 return LocalClient.GetStatus();
             }
         }
+        /// <summary>
+        /// The number of images the service processed since it was launched.
+        /// </summary>
         public int ImageCount
         {
             get
@@ -62,6 +76,9 @@ namespace ImageService.WEB.Models
                 NotifyPropertyChanged("ImageCount");
             }
         }
+        /// <summary>
+        /// The name of one of the developers.
+        /// </summary>
         public string Name1
         {
             get
@@ -74,6 +91,9 @@ namespace ImageService.WEB.Models
                 NotifyPropertyChanged("Name1");
             }
         }
+        /// <summary>
+        /// The name of the other developer.
+        /// </summary>
         public string Name2
         {
             get
@@ -86,6 +106,9 @@ namespace ImageService.WEB.Models
                 NotifyPropertyChanged("Name2");
             }
         }
+        /// <summary>
+        /// The ID of one of the developers.
+        /// </summary>
         public string ID1
         {
             get
@@ -98,6 +121,9 @@ namespace ImageService.WEB.Models
                 NotifyPropertyChanged("ID1");
             }
         }
+        /// <summary>
+        /// The ID of the other developer.
+        /// </summary>
         public string ID2
         {
             get
@@ -114,7 +140,8 @@ namespace ImageService.WEB.Models
 
         /// <summary>
         /// Constructor,
-        /// gets a client and loads data from it
+        /// Gets a client and loads data from it.
+        /// If the client cannot load data, "connection error" is loaded instead.
         /// </summary>
         public MainTabModel()
         {

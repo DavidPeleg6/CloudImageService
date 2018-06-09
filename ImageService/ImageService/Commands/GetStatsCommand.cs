@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 
 namespace ImageService.Commands
 {
-    /*
-     * a class for holding the amount of photos currently held in the output dir (not reading it but just counting
-     *  the amount of photos moved since the start of server) also returns the students invloved in project
-     */
+    /// <summary>
+    /// A command that returns the stats the main window of the website needs.
+    /// I.E the number of images the service has processed thus far and the personal information of the developers.
+    /// The number of images is maintained by counting every time a new image is processed.
+    /// The student information is read from the app.config file.
+    /// </summary>
     public class GetStatsCommand : ICommand
     {
         private int PhotoAmount;
@@ -23,8 +25,11 @@ namespace ImageService.Commands
         private string Name2;
         private string ID1;
         private string ID2;
-
-        //TODO possibly get this shit done by reading from a file instead app config
+        
+        /// <summary>
+        /// Constructor, sets the ammount of photos to 0 (since this constructor is called as the service is launched).
+        /// and load the student information from app.config.
+        /// </summary>
         public GetStatsCommand()
         {
             PhotoAmount = 0;
@@ -33,12 +38,23 @@ namespace ImageService.Commands
             ID1 = ConfigurationManager.AppSettings["ID1"];
             ID2 = ConfigurationManager.AppSettings["ID2"];
         }
-
+        /// <summary>
+        /// An event that is called when the service processes an image.
+        /// Increments the photo ammount counter.
+        /// </summary>
+        /// <param name="sender">The service probably, not used</param>
+        /// <param name="args">Also not used</param>
         public void PhotoAdded(object sender, LogChangedEventArgs args)
         {
             PhotoAmount++;
         }
-
+        /// <summary>
+        /// Executes the command, placing the information it is supposed to return in a JSON object
+        /// and returning said JSON object.
+        /// </summary>
+        /// <param name="args">not used</param>
+        /// <param name="result">not used</param>
+        /// <returns>The number of images and the student information, in JSON format.</returns>
         public string Execute(string[] args, out bool result)
         {
             result = true;

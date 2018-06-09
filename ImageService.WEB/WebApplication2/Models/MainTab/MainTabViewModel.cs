@@ -9,6 +9,11 @@ using System.Windows.Input;
 
 namespace ImageService.WEB.Models
 {
+    /// <summary>
+    /// The viewmodel for the main window of the website.
+    /// Acts as a seperation layer between the view and the model.
+    /// Gets info from the model and passes it over to the view.
+    /// </summary>
     public class MainTabViewModel
     {
         private IMainTabModel Model;
@@ -23,6 +28,10 @@ namespace ImageService.WEB.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
         #region Getters and setters
+        /// <summary>
+        /// A property specifing if the service is running or not.
+        /// Specifies if the model can aquire data.
+        /// </summary>
         public string Running
         {
             get
@@ -33,6 +42,9 @@ namespace ImageService.WEB.Models
                     return "Offline";
             }
         }
+        /// <summary>
+        /// The number of images the service processed since it was launched.
+        /// </summary>
         public int ImageCount
         {
             get
@@ -48,6 +60,9 @@ namespace ImageService.WEB.Models
                 }
             }
         }
+        /// <summary>
+        /// The name of one of the developers.
+        /// </summary>
         public string Name1
         {
             get
@@ -63,6 +78,9 @@ namespace ImageService.WEB.Models
                 }
             }
         }
+        /// <summary>
+        /// The name of the other developer.
+        /// </summary>
         public string Name2
         {
             get
@@ -78,6 +96,9 @@ namespace ImageService.WEB.Models
                 }
             }
         }
+        /// <summary>
+        /// The ID of one of the developers.
+        /// </summary>
         public string ID1
         {
             get
@@ -93,6 +114,9 @@ namespace ImageService.WEB.Models
                 }
             }
         }
+        /// <summary>
+        /// The ID of the other developer.
+        /// </summary>
         public string ID2
         {
             get
@@ -109,6 +133,9 @@ namespace ImageService.WEB.Models
             }
         }
         #endregion
+        /// <summary>
+        /// Constructor, just sets the model to be a MainTabModel.
+        /// </summary>
         public MainTabViewModel()
         {
             this.Model = new MainTabModel();

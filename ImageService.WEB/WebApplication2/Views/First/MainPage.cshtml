@@ -24,22 +24,29 @@ Image count: <p id="ImageCount"></p>
 </table>
 
 <script>
+    //The functions in this group are called when the page is loaded.
     $(document).ready(function () {
+        //Loads the state of the service using the controller.
         $.getJSON("@Url.Action("GetRunning")", function (running) {
             $("#Running").text(running.text);
         });
+        //Loads the number of images processed using the controller.
         $.getJSON("@Url.Action("GetImageCount")", function (imageCount) {
             $("#ImageCount").text(imageCount.text);
         });
+        //Loads the name of one of the developers using the controller.
         $.getJSON("@Url.Action("GetName1")", function (name1) {
             $("#Name1").text(name1.text);
         });
+        //Loads the name of the other developer using the controller.
         $.getJSON("@Url.Action("GetName2")", function (name2) {
             $("#Name2").text(name2.text);
         });
+        //Loads the ID of one of the developers using the controller.
         $.getJSON("@Url.Action("GetID1")", function (id1) {
             $("#ID1").text(id1.text);
         });
+        //Loads the IDA of the other developer using the controller.
         $.getJSON("@Url.Action("GetID2")", function (id2) {
             $("#ID2").text(id2.text);
         });

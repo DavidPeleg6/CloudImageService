@@ -7,17 +7,24 @@ using System.ComponentModel.DataAnnotations;
 namespace ImageService.WEB.Models
 {
     /// <summary>
-    /// Contains all data that the config page is supposed to display.
-    /// The first four are Output Directory, Source Name, 
+    /// A class used to pass handelers to the view.
+    /// Contains just the adress of the handeler.
     /// </summary>
     public class HandelerData
     {
         static int count = 0;
+        /// <summary>
+        /// Contructor, makes an empty handeler with a uniqe ID.
+        /// </summary>
         public HandelerData()
         {
             count++;
             ID = count;
         }
+        /// <summary>
+        /// Copies the contents of handelerData to this HandelerData
+        /// </summary>
+        /// <param name="handelerData">HandelerData whose contents will by copied to this HandelerData.</param>
         public void copy(HandelerData handelerData)
         {
             Text = handelerData.Text;

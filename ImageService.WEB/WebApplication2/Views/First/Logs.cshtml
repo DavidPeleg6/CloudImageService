@@ -7,7 +7,7 @@
 <h2>Logs</h2>
 
 <input type="text" id="filterInput" placeholder="Filter by type" />
-<input type="button" onclick="myFunction()" value="Filter by type."/>
+<input type="button" onclick="FilterFunction()" value="Filter by type."/>
 
 <table class="table" id="logTable">
     <tr>
@@ -35,14 +35,14 @@
 </table>
 
 <script>
-    function myFunction() {
+    //This function is used to filter logs based on type.
+    function FilterFunction() {
         // Declare variables
         var input, filter, table, tr, td, i;
         input = document.getElementById("filterInput");
         filter = input.value.toUpperCase();
         table = document.getElementById("logTable");
         tr = table.getElementsByTagName("tr");
-
         // Loop through all table rows, and hide those that don't match the filter
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
