@@ -66,8 +66,13 @@ namespace WebApplication2.Controllers
             data["text"] = ConfigWindowModel.ThumbnailSize;
             return data;
         }
+        [HttpPost]
+        public ActionResult HandelerCloseConfirm(String handeler)
+        {
+            return View(handeler);
+        }
         #endregion
 
-   
+
     }
 }

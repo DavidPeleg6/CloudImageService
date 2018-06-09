@@ -17,8 +17,6 @@ namespace ImageService.WEB.Models
     {
         private IConfigTabModel Model;
         public event PropertyChangedEventHandler PropertyChanged;
-        private string _selectedItem;
-        private bool _isButtonEnabled;
         /// <summary>
         /// A function that is called when a property changes in the model.
         /// Thus updating the value of the property in the view.
@@ -31,24 +29,6 @@ namespace ImageService.WEB.Models
         }
         //Note, all of these are stored in the model, not locally.
         #region Getters and setters
-        /// <summary>
-        /// A boolean indicating if the button should be pressable.
-        /// </summary>
-        public bool IsButtonEnabled
-        {
-            get
-            {
-                return this._isButtonEnabled;
-            }
-            set
-            {
-                if (this._isButtonEnabled != value)
-                {
-                    this._isButtonEnabled = value;
-                    OnPropertyChanged("IsButtonEnabled");
-                }
-            }
-        }
         /// <summary>
         /// The directory that the images should be copied to and the thumbnails should be stored in.
         /// </summary>

@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Config";
 }
-
 <h2>Config</h2>
 <table class="table">
     <tr>
@@ -24,29 +23,26 @@
     </tr>
 </table>
 <h3>Handelers</h3>
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
-        </td>
-    </tr>
-}
-<br />
-<h3>Handelers test</h3>
-<table class="table">
-    <tr>
-        <th>
-            <form action="~/Views/First/HandelerCloseConfirm.cshtml">
-                <input type="submit" value="HANDELER 1" />
-            </form>
-        </th>
-    </tr>
-    <tr>
-        <th><a href="~/Views/First/HandelerCloseConfirm.cshtml">HANDELER 3</a></th>
-    </tr>
+<table>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <button id=@Html.DisplayFor(modelItem => item.Text) value=@Html.DisplayFor(modelItem => item.Text)>
+                @Html.DisplayFor(modelItem => item.Text)</button>
+            </td>
+        </tr>
+    }
 </table>
 <script>
+    $(document).ready(function () {
+        $("button").click(function () {
+            var me = $(this);
+            alert(me.val());
+            document.location.href = @Url.Action("HandelerCloseConfirm"), input, function (me.val())
+            me.hide();
+        });
+    });
     $(document).ready(function () {
         $.getJSON("@Url.Action("GetOutputDirectory")", function (outputDir) {
             $("#OutputDirectory").text(outputDir.text);
