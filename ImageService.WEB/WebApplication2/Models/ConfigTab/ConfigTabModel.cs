@@ -139,19 +139,19 @@ namespace ImageService.WEB.Models
             }
             SendCommand += LocalClient.CommandRecieved;
             LocalClient.CommandDone += CommandDone;
-            CommandRecievedEventArgs args = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null);
+            CommandRecievedEventArgs Args = new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null);
             AnswerRecieved = false;
-            SendCommand(this, args);
+            SendCommand(this, Args);
             while (!AnswerRecieved) ;
-            JObject obj = JObject.Parse(Answer);
-            this.ModelOutputDirectory = (string)obj["OutputDir"];
-            this.ModelSourceName = (string)obj["SourceName"];
-            this.ModelLogName = (string)obj["LogName"];
-            this.ModelThumbnailSize = (string)obj["ThumbnailSize"];
-            int HandelerCount = (int)obj["handler amount: "];
+            JObject Obj = JObject.Parse(Answer);
+            this.ModelOutputDirectory = (string)Obj["OutputDir"];
+            this.ModelSourceName = (string)Obj["SourceName"];
+            this.ModelLogName = (string)Obj["LogName"];
+            this.ModelThumbnailSize = (string)Obj["ThumbnailSize"];
+            int HandelerCount = (int)Obj["handler amount: "];
             for (int i = 0; i < HandelerCount; i++)
             {
-                ModelHandelerList.Add(new HandelerData() { Text = (string)obj["handler" + i + ": "] });
+                ModelHandelerList.Add(new HandelerData() { Text = (string)Obj["handler" + i + ": "] });
             }
         }
         /// <summary>
@@ -161,8 +161,8 @@ namespace ImageService.WEB.Models
         /// <param name="args">Data about what command was finished and how it was finished.</param>
         public void CommandDone(object sender, CommandDoneEventArgs args)
         {
-            JObject obj = JObject.Parse(args.Message);
-            if ((string)obj["type"] == "close command done" || (string)obj["type"] == "config")
+            JObject Obj = JObject.Parse(args.Message);
+            if ((string)Obj["type"] == "close command done" || (string)Obj["type"] == "config")
             {
                 Answer = args.Message;
                 AnswerRecieved = true;
@@ -181,13 +181,13 @@ namespace ImageService.WEB.Models
                 if (ModelHandelerList.ElementAt(i) == handeler)
                 {
                     String[] HandelerNameArray = { handeler.Text };
-                    CommandRecievedEventArgs args = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, HandelerNameArray, handeler.Text);
+                    CommandRecievedEventArgs Args = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, HandelerNameArray, handeler.Text);
                     AnswerRecieved = false;
-                    SendCommand(this, args);
+                    SendCommand(this, Args);
                     while (!AnswerRecieved);
-                    JObject obj = JObject.Parse(Answer);
-                    string ans = (string)obj["type"];
-                    if (ans == "close command done")
+                    JObject Obj = JObject.Parse(Answer);
+                    string Ans = (string)Obj["type"];
+                    if (Ans == "close command done")
                     {
                         ModelHandelerList.RemoveAt(i);
                     }

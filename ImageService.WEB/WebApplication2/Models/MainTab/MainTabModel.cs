@@ -161,12 +161,12 @@ namespace ImageService.WEB.Models
             AnswerRecieved = false;
             SendCommand(this, args);
             while (!AnswerRecieved);
-            JObject obj = JObject.Parse(Answer);
-            this.ModelImageCount = (int)obj["photo_amount"];
-            this.ModelName1 = (string)obj["Name1"];
-            this.ModelName2 = (string)obj["Name2"];
-            this.ModelID1 = (string)obj["ID1"];
-            this.ModelID2 = (string)obj["ID2"];
+            JObject Obj = JObject.Parse(Answer);
+            this.ModelImageCount = (int)Obj["photo_amount"];
+            this.ModelName1 = (string)Obj["Name1"];
+            this.ModelName2 = (string)Obj["Name2"];
+            this.ModelID1 = (string)Obj["ID1"];
+            this.ModelID2 = (string)Obj["ID2"];
         }
 
         /// <summary>

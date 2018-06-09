@@ -12,14 +12,14 @@ namespace ImageService.WEB.Models
     /// </summary>
     public class HandelerData
     {
-        static int count = 0;
+        static int Count = 0;
         /// <summary>
         /// Contructor, makes an empty handeler with a uniqe ID.
         /// </summary>
         public HandelerData()
         {
-            count++;
-            ID = count;
+            Count++;
+            ID = Count;
         }
         /// <summary>
         /// Copies the contents of handelerData to this HandelerData

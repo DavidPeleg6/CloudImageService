@@ -125,8 +125,8 @@ namespace ImageService.WEB.Models
             AnswerRecieved = false;
             SendCommand(this, args);
             while (!AnswerRecieved);
-            JObject obj = JObject.Parse(Answer);
-            List<ISPair> htmlAttributes = JsonConvert.DeserializeObject<List<ISPair>>((string)obj["Dict"]);
+            JObject Obj = JObject.Parse(Answer);
+            List<ISPair> htmlAttributes = JsonConvert.DeserializeObject<List<ISPair>>((string)Obj["Dict"]);
             foreach (ISPair entry in htmlAttributes)
             {
                 AddLog(entry.Type, entry.Message);
