@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WebApplication2.Models.MainTab
+namespace ImageService.WEB.Models
 {
     public class MainTabViewModel
     {
@@ -23,6 +23,16 @@ namespace WebApplication2.Models.MainTab
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
         #region Getters and setters
+        public string Running
+        {
+            get
+            {
+                if (Model.Running)
+                    return "Online";
+                else
+                    return "Offline";
+            }
+        }
         public int ImageCount
         {
             get

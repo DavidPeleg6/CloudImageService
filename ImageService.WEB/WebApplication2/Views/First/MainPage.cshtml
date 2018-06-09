@@ -4,28 +4,44 @@
 }
 
 <h2>Main Page</h2>
-<h4>
-    <br />Image Service status: I DON'T FUCKING KNOW HOW TO GET THIS SHIT
-    <br /><br />Image count: I DON'T FUCKING KNOW HOW TO GET THIS SHIT
-</h4>
-<br /><br />
+<br />
+Image Service status: <p id="Running"></p>
+Image count: <p id="ImageCount"></p>
+<br />
 <table style="width:100%">
     <tr>
-        <th>First name</th>
-        <th>Last name</th>
+        <th>Name</th>
         <th>ID</th>
-        <th>Recitation Group</th>
     </tr>
     <tr>
-        <td>Avihai</td>
-        <td>Didi</td>
-        <td>313137846</td>
-        <td>05</td>
+        <td><p id="Name1"></p></td>
+        <td><p id="ID1"></p></td>
     </tr>
     <tr>
-        <td>David</td>
-        <td>Geda</td>
-        <td>313237182</td>
-        <td>05</td>
+        <td><p id="Name2"></p></td>
+        <td><p id="ID2"></p></td>
     </tr>
 </table>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON("@Url.Action("GetRunning")", function (running) {
+            $("#Running").text(running.text);
+        });
+        $.getJSON("@Url.Action("GetImageCount")", function (imageCount) {
+            $("#ImageCount").text(imageCount.text);
+        });
+        $.getJSON("@Url.Action("GetName1")", function (name1) {
+            $("#Name1").text(name1.text);
+        });
+        $.getJSON("@Url.Action("GetName2")", function (name2) {
+            $("#Name2").text(name2.text);
+        });
+        $.getJSON("@Url.Action("GetID1")", function (id1) {
+            $("#ID1").text(id1.text);
+        });
+        $.getJSON("@Url.Action("GetID2")", function (id2) {
+            $("#ID2").text(id2.text);
+        });
+    })
+</script>

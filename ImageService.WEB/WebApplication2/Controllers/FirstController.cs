@@ -15,6 +15,7 @@ namespace WebApplication2.Controllers
         Client LocalClient = Client.GetInstance;
         LogsTabViewModel LogWindowModel = new LogsTabViewModel();
         ConfigTabViewModel ConfigWindowModel = new ConfigTabViewModel();
+        MainTabViewModel MainWindowModel = new MainTabViewModel();
         #endregion
 
         #region MenuLinks
@@ -73,6 +74,49 @@ namespace WebApplication2.Controllers
         }
         #endregion
 
-
+        #region Main Page
+        [HttpGet]
+        public JObject GetRunning()
+        {
+            JObject data = new JObject();
+            data["text"] = MainWindowModel.Running;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetImageCount()
+        {
+            JObject data = new JObject();
+            data["text"] = MainWindowModel.ImageCount;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetName1()
+        {
+            JObject data = new JObject();
+            data["text"] = MainWindowModel.Name1;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetName2()
+        {
+            JObject data = new JObject();
+            data["text"] = MainWindowModel.Name2;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetID1()
+        {
+            JObject data = new JObject();
+            data["text"] = MainWindowModel.ID1;
+            return data;
+        }
+        [HttpGet]
+        public JObject GetID2()
+        {
+            JObject data = new JObject();
+            data["text"] = MainWindowModel.ID2;
+            return data;
+        }
+        #endregion
     }
 }

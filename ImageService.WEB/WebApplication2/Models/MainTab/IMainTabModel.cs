@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApplication2.Models.MainTab
+namespace ImageService.WEB.Models
 {
     /// <summary>
     /// Interface for the main tab model.
     /// </summary>
     interface IMainTabModel
     {
+        bool Running { get; }
         int ImageCount { get; set; }
         string Name1 { get; set; }
         string Name2 { get; set; }

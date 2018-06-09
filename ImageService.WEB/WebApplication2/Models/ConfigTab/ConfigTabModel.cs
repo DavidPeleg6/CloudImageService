@@ -134,7 +134,7 @@ namespace ImageService.WEB.Models
                 this.ModelSourceName = "Connection error, failed to load data.";
                 this.ModelLogName = "Connection error, failed to load data.";
                 this.ModelThumbnailSize = "Connection error, failed to load data.";
-                ModelHandelerList.Add(new HandelerData() { Text = "Connection error, failed to load data." });
+                this.ModelHandelerList.Add(new HandelerData() { Text = "Connection error, failed to load data." });
                 return;
             }
             SendCommand += LocalClient.CommandRecieved;
