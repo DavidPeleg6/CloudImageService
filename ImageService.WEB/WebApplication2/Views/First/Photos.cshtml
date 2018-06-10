@@ -3,29 +3,31 @@
     ViewBag.Title = "Photos";
 }
 
-@{ 
-    string[] photos = { @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg", @"C:\shitfolder\shit.jpg"
-    ,@"C:\shitfolder\shit.jpg",@"C:\shitfolder\shit.jpg"};
-}
-
 <h2>Photos</h2>
 This is the page where the photos will be displayed.<br />
 Dudu dodo this.<br />
 
-               <div class="row">
-                   @foreach (var photo in photos)
-                   {
-                       <div class="col-sm-1 col-md-2">
-                           <div class="thumbnail">
-                               <img src=@photo class="img-circle" alt="image not found" />
-                               <h3>@photo</h3>
-                               <p>mister turd</p>
-                               <p>
-                                   <a href="#" class="btn btn-info" role="button">View</a>
-                                   <a href="#" class="btn btn-danger" role="button">Delete</a>
-                               </p>
-                           </div>
-                       </div>
-                   }
-               </div>
-                   
+
+
+<div class="row"> 
+    @foreach (var photo in ViewBag.photos)
+    {           
+        <div class="col-sm-1 col-md-4">
+            <div class="thumbnail">
+                <img src=@photo class="img-circle" alt="image not found" />
+                @{ 
+                    var Name = Path.GetFileName(photo);
+                    var Month = Path.GetFileName(Path.GetDirectoryName(photo));
+                    var Year = Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(photo)));
+                }
+                <h2>@Name</h2>
+                <p>@Month</p>
+                <p>@Year</p>
+                <p>
+                    <a href="@Url.Action("ViewPage", "First", new { year = Year, month = Month, file = Name})" class="btn btn-info" role="button">View</a>
+                    <a href="#" class="btn btn-danger" role="button">Delete</a>
+                </p>
+            </div>
+        </div>
+    }           
+</div>

@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "ViewPage";
+}
+
+<h2>image</h2>
+"~/App_Data", @ViewBag.Year, @ViewBag.Month, @ViewBag.Name
+@{
+    string[] paths = new string[4] { "~/App_Data", ViewBag.Year, ViewBag.Month, ViewBag.Name };
+    var path = Path.Combine(paths);
+}
+
+<img src="@Server.MapPath(path)" alt="image corrupted" />
+
