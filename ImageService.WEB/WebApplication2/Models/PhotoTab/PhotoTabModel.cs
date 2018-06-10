@@ -6,6 +6,9 @@ using System.Web;
 
 namespace ImageService.WEB.Models
 {
+    /// <summary>
+    /// The model backend for the photo page.
+    /// </summary>
     public class PhotoTabModel
     {
         string output_dir;
