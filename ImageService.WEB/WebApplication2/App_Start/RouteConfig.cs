@@ -18,6 +18,14 @@ namespace WebApplication2
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "First", action = "MainPage", id = UrlParameter.Optional }
             );
+
+
+            routes.MapRoute(
+                name: "Views",
+                url: "{controller}/{action}/{year}/{month}/{file}",
+                defaults: new { controller = "First", action = "ViewPage", year = UrlParameter.Optional, month = UrlParameter.Optional,
+                file = UrlParameter.Optional}
+            );
         }
     }
 }
