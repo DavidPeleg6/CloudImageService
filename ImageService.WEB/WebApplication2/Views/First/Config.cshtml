@@ -26,8 +26,7 @@
 
 @foreach (var item in Model)
 {
-    //TODO add right text
-    if (item.Text == "connection error")
+    if (@Html.DisplayFor(modelItem => item.Text).ToString() == "Connection error, failed to load data.")
     {
         <div class="row">
             <div class="col-xs-2 col-sm-4">
@@ -40,30 +39,20 @@
         </div>
         break;
     }
-    <div class="row">
-        <div class="col-xs-2 col-sm-4">
-            <p>
-                <a href="@Url.Action("HandelerCloseConfirm")/@Html.DisplayFor(modelItem => item.Text)" class="btn btn-default" role="button">
-                    @Html.DisplayFor(modelItem => item.Text)
-                </a>
-            </p>
-        </div>
-    </div>
-}
-<!--
-<table>
-    @foreach (var item in Model)
+    else
     {
-        <tr>
-            <td>
-                <button id=@Html.DisplayFor(modelItem => item.Text) value=@Html.DisplayFor(modelItem => item.Text)>
-                    @Html.DisplayFor(modelItem => item.Text)
-                </button>
-            </td>
-        </tr>
+        <div class="row">
+            <div class="col-xs-2 col-sm-4">
+                <p>
+                    <a href="@Url.Action("HandelerCloseConfirm")/?@Html.DisplayFor(modelItem => item.Text)" class="btn btn-default" role="button">
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </a>
+                </p>
+            </div>
+        </div>
     }
-</table>
-    -->
+}
+
 <script>
     $(document).ready(function () {
         $.getJSON("@Url.Action("GetOutputDirectory")", function (outputDir) {

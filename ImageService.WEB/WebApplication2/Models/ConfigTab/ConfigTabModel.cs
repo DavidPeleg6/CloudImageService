@@ -174,7 +174,7 @@ namespace ImageService.WEB.Models
         /// </summary>
         /// <param name="handeler">The handeler to be removed.</param>
         /// <returns>True if the removal sucseeded, false otherwise.</returns>
-        public void RemoveHandeler(HandelerData handeler)
+        public bool RemoveHandeler(HandelerData handeler)
         {
             for (int i = 0; i < ModelHandelerList.Count; i++)
             {
@@ -190,9 +190,11 @@ namespace ImageService.WEB.Models
                     if (Ans == "close command done")
                     {
                         ModelHandelerList.RemoveAt(i);
+                        return true;
                     }
                 }
             }
+            return false;
         }
     }
 }

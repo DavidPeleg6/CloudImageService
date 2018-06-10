@@ -125,11 +125,9 @@ namespace ImageService.WEB.Models
         /// A function that is activated when the remove button is pressed.
         /// Tells the model to remove the currently selected handeler.
         /// </summary>
-        public void RemoveHandelerAction()
+        public bool RemoveHandeler(HandelerData handeler)
         {
-            //TODO: actually make this
-            //this.Model.RemoveHandeler(this.SelectedItem);
-            //this.IsButtonEnabled = false;
+            return this.Model.RemoveHandeler(handeler);
         }
         /// <summary>
         /// Constructor, sets the model to be SettingsTabModel

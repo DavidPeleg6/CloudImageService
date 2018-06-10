@@ -21,6 +21,6 @@ namespace ImageService.WEB.Models
         string LogName { get; set; }
         string ThumbnailSize { get; set; }
         List<HandelerData> HandelerList { get; set; }
-        void RemoveHandeler(HandelerData handeler);
+        bool RemoveHandeler(HandelerData handeler);
     }
 }
