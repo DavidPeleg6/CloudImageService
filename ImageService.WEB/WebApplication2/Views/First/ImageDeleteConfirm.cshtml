@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "ImageDeleteConfirm";
+}
+
+<h2>@ViewBag.Name</h2>
+<p>Year: @ViewBag.Year</p>
+<p>Month: @ViewBag.Month</p>
+@{
+        //TODO change it to thumbnail ending
+        var thumbnail = Path.Combine(new string[5] { "~/App_Data", "thumbnails", ViewBag.Year, ViewBag.Month, ViewBag.Name });
+}
+
+<img src="@Server.MapPath(thumbnail)" alt="image corrupted" />
+<p>
+    <a href="@Url.Action("DeleteImage", "First", new { year = ViewBag.Year, month = ViewBag.Month, file = ViewBag.Name})"
+       class="btn btn-danger" role="button">ARE YOU SURE YOU WISH TO DELETE?</a>
+</p>
+
+<p><a href="@Url.Action("Photos", "First", null)" class="btn btn-info" role="button">Return</a></p>
+
