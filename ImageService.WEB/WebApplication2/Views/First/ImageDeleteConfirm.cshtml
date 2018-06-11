@@ -6,7 +6,10 @@
 <p>Year: @ViewBag.Year</p>
 <p>Month: @ViewBag.Month</p>
 @{
-        var thumbnail = Path.Combine(new string[5] { "~/App_Data", "Thumbnails", ViewBag.Year, ViewBag.Month, ViewBag.Name });
+    string thumbnail = Path.Combine("~/App_Data", "Thumbnails");
+    thumbnail = Path.Combine(thumbnail, ViewBag.Year);
+    thumbnail = Path.Combine(thumbnail, ViewBag.Month);
+    thumbnail = Path.Combine(thumbnail, ViewBag.Name);
 }
 
 <img src="@Server.MapPath(thumbnail)" alt="image corrupted" />
@@ -16,4 +19,3 @@
 </p>
 
 <p><a href="@Url.Action("Photos", "First", null)" class="btn btn-info" role="button">Return</a></p>
-
