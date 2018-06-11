@@ -44,7 +44,8 @@
         <div class="row">
             <div class="col-xs-2 col-sm-4">
                 <p>
-                    <a href="@Url.Action("HandelerCloseConfirm")/?@Html.DisplayFor(modelItem => item.Text)" class="btn btn-default" role="button">
+                    <a href="@Url.Action("HandelerCloseConfirm", "First", new { handeler = @Html.DisplayFor(modelItem => item.Text) })"
+                       class="btn btn-default" role="button">
                         @Html.DisplayFor(modelItem => item.Text)
                     </a>
                 </p>

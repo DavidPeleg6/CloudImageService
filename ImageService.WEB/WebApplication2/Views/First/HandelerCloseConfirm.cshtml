@@ -1,34 +1,29 @@
-﻿
+﻿@model IEnumerable<String>
 
 @{
     ViewBag.Title = "HandelerCloseConfirm";
 }
 
 <h2>Handeler Close Confirmation page</h2>
-Remove the following handeler?
-<p id="urlParse"></p>
+Remove the handeler
+@Model.First()
+?
+<br />
 
-@{ 
-    var h = Url.ToString();
-
-}
-
-@Html.ActionLink("OK", "RemoveHandeler", "First", new { handeler = h }, null)
-
-
+<a href="@Url.Action("RemoveHandeler", "First", new { handeler = @Model.First() })"
+   class="btn btn-default" role="button" onclick="DisableButtons()" id="OkButton">
+    OK
+</a>
+<a href="@Url.Action("Config")" class="btn btn-default" role="button" onclick="DisableButtons()" id="CancelButton">
+    Cancel
+</a>
 
 <script>
     $(document).ready(function () {
-        var h = document.URL.split("?")[1];
-        $("#urlParse").text(h);
 
-        $(".link").href.replace("replaceMe", GetHandeler());
-        //$(".link").attr('id') = GetHandeler();
     })
-    function GetHandeler() {
-        return document.URL.split("?")[1];
+    function DisableButtons() {
+        document.getElementById("OkButton").disabled = true;
+        document.getElementById("CancelButton").disabled = true;
     }
-
-
-
 </script>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<String>
+
+@{
+    ViewBag.Title = "HandelerRemovalFailed";
+}
+
+<h2>Handeler removal failed.</h2>
+Removal of the handeler 
+@Model.First()
+has failed for an unknown reason.
+<br />
+
+<a href="@Url.Action("Config")" class="btn btn-default" role="button" id="CancelButton">
+    Return to config page
+</a>

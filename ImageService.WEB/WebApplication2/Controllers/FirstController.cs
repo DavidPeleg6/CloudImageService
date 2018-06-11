@@ -125,8 +125,9 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public ActionResult HandelerCloseConfirm(String handeler)
         {
-            ViewBag.handler = RouteData.Values["id"];
-            return View();
+            List<String> TempList = new List<String>();
+            TempList.Add(handeler);
+            return View(TempList);
         }
         /// <summary>
         /// Removes the handeler
@@ -134,11 +135,15 @@ namespace WebApplication2.Controllers
         /// <param name="handeler">The handeler to be removed.</param>
         /// <returns>True if removed, false otherwise.</returns>
         [HttpGet]
-        public JObject RemoveHandeler(String handeler)
+        public ActionResult RemoveHandeler(String handeler)
         {
-            JObject data = new JObject();
-            data["text"] = ConfigWindowModel.RemoveHandeler(new HandelerData() { Text = handeler });
-            return data;
+            if (!ConfigWindowModel.RemoveHandeler(new HandelerData() { Text = handeler.Replace(@"\\", @"\") }))
+            {
+                List<String> TempList = new List<String>();
+                TempList.Add(handeler);
+                return View("HandelerRemovalFailed", TempList);
+            }
+            return View("Config", ConfigWindowModel.HandelerList);
         }
         #endregion
 

@@ -178,9 +178,9 @@ namespace ImageService.WEB.Models
         {
             for (int i = 0; i < ModelHandelerList.Count; i++)
             {
-                if (ModelHandelerList.ElementAt(i) == handeler)
+                if (ModelHandelerList.ElementAt(i).Text == handeler.Text)
                 {
-                    String[] HandelerNameArray = { handeler.Text };
+                    String[] HandelerNameArray = { handeler.Text.Replace(@"\\", @"\") };
                     CommandRecievedEventArgs Args = new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, HandelerNameArray, handeler.Text);
                     AnswerRecieved = false;
                     SendCommand(this, Args);
