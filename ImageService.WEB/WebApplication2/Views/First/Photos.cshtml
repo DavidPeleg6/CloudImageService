@@ -22,12 +22,10 @@
                 <div class="thumbnail">
                     <!---generate the strings needed for paths-->
                     @{
-                        var ThumbName = Path.ChangeExtension(photo, "bmp");
                         var Name = Path.GetFileName(photo);
                         var Month = Path.GetFileName(Path.GetDirectoryName(photo));
                         var Year = Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(photo)));
-                        //TODO change it to thumbnail ending
-                        var thumbnail = Path.Combine(new string[5] { Server.MapPath("~/App_Data"), "thumbnails", Year, Month, Name });
+                        var thumbnail = Path.Combine(new string[5] { Server.MapPath("~/App_Data"), "Thumbnails", Year, Month, Name });
                     }
                     <img src=@thumbnail class="img-circle" alt="@thumbnail" />
                     <h2>@Name</h2>

@@ -6,8 +6,7 @@
 <p>Year: @ViewBag.Year</p>
 <p>Month: @ViewBag.Month</p>
 @{
-        //TODO change it to thumbnail ending
-        var thumbnail = Path.Combine(new string[5] { "~/App_Data", "thumbnails", ViewBag.Year, ViewBag.Month, ViewBag.Name });
+        var thumbnail = Path.Combine(new string[5] { "~/App_Data", "Thumbnails", ViewBag.Year, ViewBag.Month, ViewBag.Name });
 }
 
 <img src="@Server.MapPath(thumbnail)" alt="image corrupted" />
