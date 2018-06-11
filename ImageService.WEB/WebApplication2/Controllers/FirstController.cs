@@ -231,7 +231,7 @@ namespace WebApplication2.Controllers
         public ActionResult DeleteImage(String year, String month, String file)
         {
             PhotoWindowModel.DeleteImage(Server.MapPath("~/App_Data"), year, month, file);
-            PhotoWindowModel.DeleteImage(Path.Combine(Server.MapPath("~/App_Data"), "Thumbnail"), year, month, file);
+            PhotoWindowModel.DeleteImage(Path.Combine(Server.MapPath("~/App_Data"), "Thumbnails"), year, month, file);
             return RedirectToAction("Photos/true");
         }
         /// <summary>
