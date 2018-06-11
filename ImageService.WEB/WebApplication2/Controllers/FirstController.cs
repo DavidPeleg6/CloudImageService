@@ -57,7 +57,7 @@ namespace WebApplication2.Controllers
         /// <returns>A view of the photos page.</returns>
         public ActionResult Photos()
         {
-            ViewBag.photos = PhotoWindowModel.PhotoAddresses(Server.MapPath("~/App_Data"));
+            ViewBag.photos = PhotoWindowModel.PhotoAddresses(Server.MapPath(@"\images"));
             ViewBag.Deleted = RouteData.Values["id"];
             return View();
         }
@@ -230,8 +230,8 @@ namespace WebApplication2.Controllers
         [ActionName("DeleteImage")]
         public ActionResult DeleteImage(String year, String month, String file)
         {
-            PhotoWindowModel.DeleteImage(Server.MapPath("~/App_Data"), year, month, file);
-            PhotoWindowModel.DeleteImage(Path.Combine(Server.MapPath("~/App_Data"), "Thumbnails"), year, month, file);
+            PhotoWindowModel.DeleteImage(Server.MapPath("~/images"), year, month, file);
+            PhotoWindowModel.DeleteImage(Path.Combine(Server.MapPath("~/images"), "Thumbnails"), year, month, file);
             return RedirectToAction("Photos/true");
         }
         /// <summary>

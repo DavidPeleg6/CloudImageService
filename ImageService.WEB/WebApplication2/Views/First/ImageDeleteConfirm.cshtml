@@ -6,13 +6,13 @@
 <p>Year: @ViewBag.Year</p>
 <p>Month: @ViewBag.Month</p>
 @{
-    string thumbnail = Path.Combine("~/App_Data", "Thumbnails");
+    string thumbnail = Path.Combine(@"\images", "Thumbnails");
     thumbnail = Path.Combine(thumbnail, ViewBag.Year);
     thumbnail = Path.Combine(thumbnail, ViewBag.Month);
     thumbnail = Path.Combine(thumbnail, ViewBag.Name);
 }
 
-<img src="@Server.MapPath(thumbnail)" alt="image corrupted" />
+<img src="@thumbnail" alt="image corrupted" />
 <p>
     <a href="@Url.Action("DeleteImage", "First", new { year = ViewBag.Year, month = ViewBag.Month, file = ViewBag.Name})"
        class="btn btn-danger" role="button">ARE YOU SURE YOU WISH TO DELETE?</a>

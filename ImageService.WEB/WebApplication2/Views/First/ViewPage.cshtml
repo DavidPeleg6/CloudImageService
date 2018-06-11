@@ -7,11 +7,11 @@
 <p>Year: @ViewBag.Year</p>
 <p>Month: @ViewBag.Month</p>
 @{
-    string[] paths = new string[4] { "~/App_Data", ViewBag.Year, ViewBag.Month, ViewBag.Name };
+    string[] paths = new string[4] { @"\images", ViewBag.Year, ViewBag.Month, ViewBag.Name };
     var path = Path.Combine(paths);
 }
 
-<img src="@Server.MapPath(path)" alt="image corrupted" />
+<img src="@path" alt="image corrupted" />
 
 <p><a href="@Url.Action("ImageDeleteConfirm", "First", new { year = ViewBag.Year, month = ViewBag.Month, file = ViewBag.Name})"
       class="btn btn-danger" role="button">Delete Image</a></p>
