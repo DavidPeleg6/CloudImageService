@@ -25,7 +25,10 @@
                         var Name = Path.GetFileName(photo);
                         var Month = Path.GetFileName(Path.GetDirectoryName(photo));
                         var Year = Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(photo)));
-                        var thumbnail = Path.Combine(new string[5] { Server.MapPath("~/App_Data"), "Thumbnails", Year, Month, Name });
+                        string thumbnail = Path.Combine(Server.MapPath("~/App_Data"), "Thumbnail");
+                        thumbnail = Path.Combine(thumbnail, Year);
+                        thumbnail = Path.Combine(thumbnail, Month);
+                        thumbnail = Path.Combine(thumbnail, Name);
                     }
                     <img src=@thumbnail class="img-circle" alt="@thumbnail" />
                     <h2>@Name</h2>
