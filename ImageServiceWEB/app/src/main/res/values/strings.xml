@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ImageService.MOBILE</string>
+    <string name="start_button">Start Service</string>
+    <string name="stop_button">Stop Service</string>
+</resources>
