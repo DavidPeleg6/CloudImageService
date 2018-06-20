@@ -23,7 +23,7 @@
         </activity>
 
         <service
-            android:name=".ImageTranferService"
+            android:name=".ImageTransferService"
             android:enabled="true"
             android:exported="true"/>
     </application>
