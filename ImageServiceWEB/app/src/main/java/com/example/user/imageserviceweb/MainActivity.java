@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonStart;
     Button buttonStop;
     Intent ServiceIntent;
+    boolean ServiceRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +26,22 @@ public class MainActivity extends AppCompatActivity {
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ServiceRunning)
+                    return;
                 Toast.makeText(MainActivity.this, "Service started", Toast.LENGTH_SHORT).show(); //TODO: maybe put this below startService
                 startService(ServiceIntent);
+                ServiceRunning = true;
             }
         });
 
         buttonStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Service started", Toast.LENGTH_SHORT).show(); //TODO: maybe put this below stopService
+                if (!ServiceRunning)
+                    return;
+                Toast.makeText(MainActivity.this, "Service stopped", Toast.LENGTH_SHORT).show(); //TODO: maybe put this below stopService
                 stopService(ServiceIntent);
+                ServiceRunning = false;
             }
         });
     }
