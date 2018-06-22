@@ -50,14 +50,10 @@ public class ImageTransferService extends Service {
         super.onDestroy();
     }
     /*
-    I don't know what this function does and don't use it.
-    I had to implements it for some reason.
-    //TODO: maybe not implements it after all.
+    Not used.
      */
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        //TODO: what the fuck is this function
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 }

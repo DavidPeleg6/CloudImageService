@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (ServiceRunning)
                     return;
-                Toast.makeText(MainActivity.this, "Service started", Toast.LENGTH_SHORT).show(); //TODO: maybe put this below startService
                 startService(ServiceIntent);
+                Toast.makeText(MainActivity.this, "Service started", Toast.LENGTH_SHORT).show();
                 ServiceRunning = true;
             }
         });
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!ServiceRunning)
                     return;
-                Toast.makeText(MainActivity.this, "Service stopped", Toast.LENGTH_SHORT).show(); //TODO: maybe put this below stopService
                 stopService(ServiceIntent);
+                Toast.makeText(MainActivity.this, "Service stopped", Toast.LENGTH_SHORT).show();
                 ServiceRunning = false;
             }
         });
