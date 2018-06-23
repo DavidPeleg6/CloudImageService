@@ -1,6 +1,7 @@
 package com.example.user.imageserviceweb;
 
 import android.annotation.TargetApi;
+import android.util.Log;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -50,7 +51,7 @@ public class TCPFileSender {
     public void Disconnect() {
         try {
             this.m_socket.close(); // close m_socket
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

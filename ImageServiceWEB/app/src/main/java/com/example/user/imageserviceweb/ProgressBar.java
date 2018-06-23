@@ -30,7 +30,6 @@ public class ProgressBar {
      */
     public ProgressBar(Context context, int count) {
         Count = count;
-        CharSequence channelName = NOTIFICATION_CHANNEL_NAME;
         int importance = NotificationManager.IMPORTANCE_LOW;
         NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
         notificationChannel.enableLights(true);
@@ -38,10 +37,8 @@ public class ProgressBar {
         notificationChannel.enableVibration(true);
         notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
 
-
         NotificationManager notificationManagerr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManagerr.createNotificationChannel(notificationChannel);
-
         notificationManager = NotificationManagerCompat.from(context);
         builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         builder.setContentTitle("Image Transfer")
